@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-  <head>
-    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>Hello App Engine</title>
-  </head>
 
-  <body>
-    <h1>Hello App Engine!</h1>
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Check answers</title>
+</head>
 
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href='/hello'>The servlet</a></td>
-      </tr>
-    </table>
-  </body>
+<body>
+  <form action="/answers" method="GET">
+    <label for="candidate_id">Candidate number</label>
+    <input type="text" name="candidate_id"><br>
+
+    <label for="question_id">Question number(0 for none)</label>
+    <input type="text" name="question_id"><br>
+
+    <input type="submit" value="Get answer">
+  </form>
+</body>
+
 </html>
