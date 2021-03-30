@@ -9,32 +9,37 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@SuppressWarnings("serial")
-@WebServlet(
-    name = "HelloAppEngine",
-    urlPatterns = {"/hello"}
-)
-public class HelloAppEngine extends HttpServlet {
-	  	
 
-    @Override
+@WebServlet	(
+	name = "HelloAppEngine",
+	urlPatterns = { "/show2"}
+	)
+public class show2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	String driver = "com.mysql.jdbc.Driver";
+	String DBpath = "//localhost/vaalikone";
+	String username = "root";
+	String password = "Zelja";
+	Connection con = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+
+	public show2() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-    	
-    	String driver = "com.mysql.jdbc.Driver";
-		String DBpath = "//localhost/vaalikone";
-		String username = "root";
-		String password = "Zelja";
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-    	
 		try {
 			Class.forName(driver).newInstance();
 		} catch (Exception ex) {
@@ -57,7 +62,6 @@ public class HelloAppEngine extends HttpServlet {
 		String sql;
 
 		sql = "Select*From questions";
-		
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e1) {
@@ -67,7 +71,7 @@ public class HelloAppEngine extends HttpServlet {
 		System.out.print(rs);
 
 		try {
-			int i = rs.getInt("QUESTION_ID"); // There is also other version for getInt which relies on column index number
+			int i = rs.getInt("ID"); // There is also other version for getInt which relies on column index number
 			System.out.println("i: " + i + "\n");
 
 		} catch (Exception ex) {
@@ -75,12 +79,10 @@ public class HelloAppEngine extends HttpServlet {
 		}
 
 		ArrayList<String> first_name = new ArrayList<String>();
-		
-		
 		try {
 			while (rs.next()) {
-				int a = rs.getInt("QUESTION_ID");
-				String i1 = rs.getString("QUESTION");
+				int a = rs.getInt("CANDIDATE_ID");
+				String i1 = rs.getString("FIRST_NAME");
 				first_name.add(i1);
 				System.out.println(a);
 
@@ -98,17 +100,6 @@ public class HelloAppEngine extends HttpServlet {
         out.println("<html>");
         out.println("<body>");
         out.println("<ul>");
-        
-        out.println("<li>"+ 1 +" "+ first_name.get(0) + "</li>");
-        out.println("\n");
-        
-        for (int i = 2; i<19; i++) {
-        	
-        	out.println("<li>"+ i +" "+ first_name.get(i) + "</li>");
-            out.println("\n");
-            }
-        out.println("</ul>");
-        out.println("</body></html>");
 
 	}
 
@@ -119,6 +110,3 @@ public class HelloAppEngine extends HttpServlet {
 	}
 
 }
-
-    
-  
