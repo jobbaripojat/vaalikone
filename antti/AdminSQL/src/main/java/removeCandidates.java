@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import java.util.*;
 
-public class getCandidates {
+public class removeCandidates {
 	public static void main(String[] args) throws SQLException {
 		String driver = "com.mysql.jdbc.Driver";
 		String DBpath = "//localhost/vaalikone";
@@ -36,27 +36,22 @@ public class getCandidates {
         rs = stmt.executeQuery(sql);
         System.out.print(rs);
         
-        ArrayList<String> candidates = new ArrayList<String>();
-        
         try {
             int i = rs.getInt("ID"); // There is also other version for getInt which relies on column index number
-            System.out.println("i: " + i + "\n");
+            System.out.println("i: " + i + "\n");    
+            
         } catch (Exception ex) {
-            System.out.println("*** Does not work without first using rs.next()!!! ***");
-            // Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-         // Going through the results
-            while (rs.next()) {
-            	int a = rs.getInt("CANDIDATE_ID");
-                String i = rs.getString("FIRST_NAME");
-                String e = rs.getString("LAST_NAME");
-                String d = rs.getString("DESCRIPTION");
-                candidates.add(i);
-                System.out.println(a);
-                System.out.println(i);
-                System.out.println(e);
-                System.out.println(d);
-            }
-        }
+            System.out.println("*** Failure ***");
 
+            // create delete sql query
+            String query = "delete from candidates where CANDIDATE_ID = ?";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, 2);
+            
+            // excecute delete sql query
+            preparedStmt.execute();
+            System.out.println("Candidate removed");
+            
+        }
 	}
 }

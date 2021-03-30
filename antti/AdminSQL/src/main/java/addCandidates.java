@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 
 import java.util.*;
 
-public class getCandidates {
-	public static void main(String[] args) throws SQLException {
+public class addCandidates {
+	
+	public static void main (String[] Args) throws SQLException {
 		String driver = "com.mysql.jdbc.Driver";
 		String DBpath = "//localhost/vaalikone";
 		String username = "root";
@@ -35,28 +36,23 @@ public class getCandidates {
         sql = "Select*From candidates";
         rs = stmt.executeQuery(sql);
         System.out.print(rs);
-        
-        ArrayList<String> candidates = new ArrayList<String>();
-        
+
+		
         try {
             int i = rs.getInt("ID"); // There is also other version for getInt which relies on column index number
-            System.out.println("i: " + i + "\n");
+            System.out.println("i: " + i + "\n");    
+            
         } catch (Exception ex) {
-            System.out.println("*** Does not work without first using rs.next()!!! ***");
-            // Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-         // Going through the results
-            while (rs.next()) {
-            	int a = rs.getInt("CANDIDATE_ID");
-                String i = rs.getString("FIRST_NAME");
-                String e = rs.getString("LAST_NAME");
-                String d = rs.getString("DESCRIPTION");
-                candidates.add(i);
-                System.out.println(a);
-                System.out.println(i);
-                System.out.println(e);
-                System.out.println(d);
-            }
-        }
+            System.out.println("*** Failure ***");
+            
+            // create insert sql query
+            Statement st = con.createStatement(); 
+            st.executeUpdate("INSERT INTO candidates " + "VALUES ()");
+            
+            System.out.println("Candidate added");
+            
 
+        }
+		
 	}
 }
