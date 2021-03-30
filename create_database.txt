@@ -1,0 +1,481 @@
+DROP DATABASE IF EXISTS VAALIKONE;
+
+CREATE DATABASE VAALIKONE;
+
+ALTER DATABASE VAALIKONE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE VAALIKONE;
+
+DROP TABLE IF EXISTS EHDOKKAAT;
+DROP TABLE IF EXISTS CANDIDATES;
+
+DROP TABLE IF EXISTS KYSYMYKSET;
+DROP TABLE IF EXISTS QUESTIONS;
+
+DROP TABLE IF EXISTS VASTAUKSET;
+DROP TABLE IF EXISTS ANSWERS;
+
+CREATE TABLE CANDIDATES (
+   CANDIDATE_ID INTEGER NOT NULL,
+   LAST_NAME VARCHAR(30),
+   FIRST_NAME VARCHAR(30),
+   PARTY VARCHAR(60),
+   MUNICIPALITY VARCHAR(50),
+   AGE INTEGER,
+   DESCRIPTION VARCHAR(4000),
+   PRIMARY KEY (CANDIDATE_ID)
+);
+
+CREATE TABLE QUESTIONS (
+   QUESTION_ID INTEGER NOT NULL,
+   QUESTION VARCHAR(200),
+   PRIMARY KEY (QUESTION_ID)
+);
+
+CREATE TABLE ANSWERS (
+   CANDIDATE_ID INTEGER NOT NULL,
+   QUESTION_ID INTEGER NOT NULL,
+   ANSWER INTEGER,
+   PRIMARY KEY (CANDIDATE_ID, QUESTION_ID)
+);
+
+INSERT INTO CANDIDATES VALUES (1, "Ahvenjarvi", "Joel", "Suomen Kristillisdemokraatit (KD)", "Uurainen", 86, "Mieluiten tekisin aivan muuta, mutta valtakunta on korjattava. Tulen toimeen noin kahdeksalla kielella ja olen perehtynyt monen alan asioihin. Kaupunkilais- ja maalaisjarkea. Haluan edistaa Suomea, jossa kenenkaan ei tarvitse karsia puutetta tai voimattomuuden tunnetta omiin asioihinsa vaikuttamisesta.");
+INSERT INTO CANDIDATES VALUES (2, "Aintila", "Henrik Jeremias", "Suomen ruotsalainen kansanpuolue", "Helsinki", 47, "Olen puheeni pitava, monipuolisesti asioita harkitseva, perusteellisesti asiat selvittava, erilaisissa yhteisaissa, yritysmaailmassa ja julkishallinnossa toiminut kolmen lapsen aiti. - Inhimillinen toimeentulo ja aito tasa-arvo kaikille statuksesta riippumatta  - Aito itsemaaraamisoikeus ja puolueettomuus  - Kansan hyvinvointi yritysvoittojen edelle  - Avoimuus kasiteltavista asioista!");
+INSERT INTO CANDIDATES VALUES (3, "Aittakumpu", "Alviina", "Vasemmistoliitto", "Jamsa", 46, "Tiedan erilaisia vaiettuja epakohtia. Esimerkiksi korruptioon ja eparehellisyyteen liittyvia asioita. Jotta demokratia toimisi niin on vaadittavaa taytta rehellisyytta. Suomen markka euron rinnalle, ja sita myata Suomen sisainen talous kuntoon. Tyapaikkoja julkiselle ja yksityiselle sektorille; investointeja ja perustuloa Suomen markalla; yritysten toimintaedellytykset huomattavasti helpommiksi ja tyallistaminen kannustavaksi. Veroparatiisikikkailu kuriin mm. rinnakkaisvaluutan avulla.");
+INSERT INTO CANDIDATES VALUES (4, "Ala-Kokko", "Henri", "Vihrea liitto", "Espoo", 87, "Kuljen aate edella, itsenaisyyden, maaseudun, suomalaisuuden ja sosiaalisen oikeudenmukaisuuden puolesta. Vanhusten ja omaishoitajien asemaa taytyy parantaa tulevalla vaalikaudella. Vanhustenpalveluihin ei voida tehda lisaa leikkauksia ja ennaltaehkaiseviin palveluihin taytyy laytya lisaa rahaa. Omaishoidon tukea taytyy korottaa ja jokaiselle omaishoitajalle pitaa jarjestaa tarpeeksi vapaapaivia. Nuorten tyallistymista pitaa tukea ja heidan tyaolojaan taytyy valvoa. Meilla on paljon ahkeria nuoria, jotka tarvitsevat ensimmaisesta tyapaikastaan positiivisen kokemuksen.");
+INSERT INTO CANDIDATES VALUES (5, "Ala-Nissila", "Benjamin", "Suomen Keskusta", "Lappajarvi", 26, "Haluan muutosta nykyiseen hallitustoimintaan, toiminta ei ole vastannut Katainen-Stubb -hallituksen odotuksia, valtiolla on enemman velkaa kuin koskaan Suomen ero EU:sta. Kansallisen keskuspankin liikkeelle laskeman oman valuutan kayttaanotto Suomessa. Suomen ja NATO:n valilla solmitun isantamaasopimuksen irtisanominen ja palaaminen puoluettomuuteen. Hyvinvointivaltion palvelujen turvaaminen oman keskuspankin, kansallisen valuutan ja itsenaisen talouspolitiikan avustuksella.");
+INSERT INTO CANDIDATES VALUES (6, "Ala-Reinikka", "Karl-Mikael", "Kansallinen Kokoomus", "Mustasaari", 37, "Koska olen rohkea ja rehellinen. - Ylipaansakin eduskuntaan pitaisi valita vain niita, joilla on oikeanlainen kasvatus ja koulutus. Pissapaiset nousukkaat ovat tuhoneet Suomen. - Uudistusta tyaelamaan ja koulutuslaitoksiin - ihmisten yksilallisyys otettava huomioon joustavilla tyaajoilla, liikkuvalla tyalla, opettamismetodeilla. 8 h/pva systemi on vanhanaikainen ja kaipaa uudistusta. Enemman luovuutta tyaelamaan! K");
+INSERT INTO CANDIDATES VALUES (7, "Alametsa", "Vilja", "Vihrea liitto", "Kotka", 82, "Mikali haluat saman menon jatkuvan seuraavankin vaalikauden, ohita tama ehdokas. Mikali haluat muutosta niin olet oikeassa osoitteessa. Ehdottomasti paallimaisena asiana on hyvien suhteiden rakentaminen muihinkin kuin EU-maihin. Tarvitsemme enemman kaupankayntia jotta vientimme nousee ja saamme uusia tyapaikkoja sailyttaen nykyisetkin.");
+INSERT INTO CANDIDATES VALUES (8, "Alanko-Kahiluoto", "Sara", "Vihrea liitto", "Nokia", 21, "Haluan vaikuttaa politiikan kautta yhteiskunnan hyvinvointiin. Pohjoismaisen hyvinvointiyhteiskunnan turvaaminen moderniin rahateoriaan (uuschartalismiin) perustuvalla talousjarjestelmalla.    Suomen sotilaallisen liittoutumattomuuden ja ulkopoliittisen puolueettomuuden puolustaminen.     Sivistysyliopiston ja voittoa tuottamattoman tutkimuksen tukeminen.     Mainittuihin asioihin sisaltyvat EU-, EMU-, Nato- ja TTIP-jasenyyksien vastustaminen.");
+INSERT INTO CANDIDATES VALUES (9, "Alasalmi", "Otto", "Suomen Sosialidemokraattinen Puolue", "Varkaus", 30, "Suomi kaipaa uusia ideoita ja niita minulta laytyy.  Tama maa kaipaa yhteistyata.  Katson eteenpain, uskon parempaan ja puolustan heikoimpia. EU:sta eroaminen on tarkeinta! En ole tehnyt koskaan palkkatyata, joten yrittajyys on myas sydammen asia! Ei NATO, ei EU, ei TTIP, ei GMO ei auro! KYLLa ITSENaISYYS JA KANSANVALTA! Suomeen tulee saada myas perustuslakituomioistuin joka valvoo hallituksen tekemisia ja paataksien laillisuutta! ETA-sopimus riittaa meille! Se takaa koulutuksen, liikkumisen ja kaupankaynnin EU:n alueella!");
+INSERT INTO CANDIDATES VALUES (10, "Alatalo", "Cosmo", "Suomen Keskusta", "Tampere", 68, "Olen tarmokas yhteisten asioiden hoitaja ja minulla on 20 vuoden kokemus ihmisten asioiden hoitamisesta. Viime kunnallisvaaleissa sain luottamuksen osoituksena aaniharavan aseman kaupungissani. Poliitikot eivat luo tyapaikkoja, vaan rakentavat raamit. Tyallisyysaste on saatava nostettua Ruotsin tasolle, ja rakenteellisia uudistuksia julkisella sektorilla seka myas tyamarkkinoilla on tehtava, jotta tyan verotusta ja tyallistymisen esteita voidaan olennaisesti pienentaa.     Turhaa yrittajyytta ja talouselamaa kuristavaa saantajen ja kieltojen viidakkoa pitaa vahentaa.     Tulen paneutumaan tyattamyyden ja syrjaytymisen ehkaisemiseen.");
+INSERT INTO CANDIDATES VALUES (11, "Albert", "Essi", "Suomen Keskusta", "Turku", 47, "Vaikka se kliseiselta kuulostaakin, ajaisin kaikkien asiota eduskunnassa, eika minulla ole hamaria motiiveja. Eduskunnassa haluan luoda yhteiskuntaa, jossa kaikille riittaa rakkautta. Tasapainoista valtiontaloutta, uskottavaa puolustuskykya, turvallista arkea, koulutuksen monipuolisuutta ja suurempaa yksilanvapautta.");
+INSERT INTO CANDIDATES VALUES (12, "Alan", "Mikko", "Itsenaisyyspuolue", "Kuopio", 82, "Tavoitteenani on tuode tuoreita ja moderneja ajatuksia valtaapitavien puolueiden kurjistamalle poliittiselle kentalle.  Pienen puoleen ehdokkaana vanhuksien maarittama puoluekuri ei rajoita minua. JaRKEa SaaNTELYYN, TILAA TYaLLE JA VALINNOILLE.  Suomi tarvitsee tyata ja liiketta. Turhaa byrokratiaa ja ylisaantelya pitaa purkaa, jotta yrittajyydelle, toimeliaisuudelle ja arjen valinnoille syntyy tilaa. Esimerkiksi kaupan aukioloaikojen ja sijainnin saantelya tulee vapauttaa. Erityisesti pk-yritysten velvoitteita pitaa keventaa. Lakien vaikutukset on arvioitava paremmin.    LAPSILLE, NUORILLE JA PERHEILLE ASIAN AJAJA  Perheet tarvitsevat tukea ja joustoja tyan ja perheen yhteensovittamiseksi. Kotihoidontuen jakaminen on perheen oma asia. Suomalaisesta laadukkaasta varhaiskasvatuksesta ja koulutuksesta on pidettava kiinni, eika koulutuksesta ole enaa varaa leikata.    ARJEN TURVALLISUUTTA JA VAHVEMPAA OIKEUSTURVAA  Arjen turvallisuutta ja oikeusturvaa tulee vahvistaa. Poliisin, oikeuslaitoksen ja puolustusvoimien toimintakyky on turvattava. Tama edellyttaa riittavia voimavaroja ja uudistuksia. Vakavien henkeen ja terveyteen, erityisesti lapsiin kohdistuvien rikosten rangaistuksia tulee koventaa.");
+INSERT INTO CANDIDATES VALUES (13, "Alho", "Inna ", "Kansallinen Kokoomus", "Kouvola", 62, "Haluan edistaa kokonaisvaltaisen hyvinvoinnin kasvua ilman eturyhmapolittista suuntautumista. Tahdon olla mukana rakentamassa vastuullista ja kannustavaa yhteiskuntaa, jossa sivistykseen panostetaan. Tyallisyyden edistaminen ja koulutukseen panostaminen ovat tulevaisuuden hyvinvoinnin kannalta keskeisia asioita. Tya on hyvinvoinnin tae niin yksilan kuin yhteisan tasolla. Siksi tyallistamisen esteita pitaa purkaa. Koulutus on avain tulevaisuuteen - nyt on aika alkaa kehittaa suomalaista koulua ja oppimista!");
+INSERT INTO CANDIDATES VALUES (14, "Alhojarvi", "Mikael ", "Suomen Kommunistinen Puolue", "Lappeenranta", 19, "Toisin eduskuntaan en vain yhta, vaan useita uusia nakakulmia. Perusoikeuksien puolesta taistelija. Lapinakyvyytta, luotettavuutta ja oikeudenmukaisuutta paataksentekoon. Lupauksistaan kiinni pitava, takki ei kaanny vaalien jalkeenkaan.");
+INSERT INTO CANDIDATES VALUES (15, "Alhonnoro", "Jasmine ", "Vihrea liitto", "Tampere", 53, "Olen valmis ajamaan suurempiakin rakenne uudistuksia suomen kilpailukyvyn parantamiseksi. Luotan suomalaisiin, etta he itse tietavat mika on parasta heille itselleen eika niinkaan valtiovalta. Pitkaaikainen kokemus ihmisten parissa tomimisessa - tya, yritys, urheilu seka jarjestajen parissa. Kunnallispolitiikassa toimiminen jo 80 - 90 luvuilla...");
+INSERT INTO CANDIDATES VALUES (16, "Alijarvi", "Daniel", "Suomen Sosialidemokraattinen Puolue", "Helsinki", 20, "Pidan sanani Paataksenteko kaipaa osaavia, yhteistyakykyisia, kokeneita ja hyvat johtamistaidot omaavia tulevia kansanedustajia. erityisasiantuntija");
+INSERT INTO CANDIDATES VALUES (17, "Allahmoradi", "Tuomas", "Vasemmistoliitto", "Inkoo", 73, "Far att det behav nagon som far fram de liberala borgerliga varderingarna och nagon som inte ar radd att fatta ocksa svara beslut. Oma maa mansikka, muu maa mustikka");
+INSERT INTO CANDIDATES VALUES (18, "Anderson", "Otto", "Suomen ruotsalainen kansanpuolue", "Vantaa", 45, "Minulla on erityisavustajatyani kautta vankka kokemus valtakunnan poliitikasta. Hallitsen eri kiemurat ja tiedan miten asiat saadaan maaliin. Eduskuntaan tarvitaan piraatti. Teknologinen kehitys on yhteiskunnan suurin muutosvoima ja se pitaa huomioida paataksentekoprosessissa. Olen DI/fyysikko seka opettaja ja osaava vaikuttaja.");
+INSERT INTO CANDIDATES VALUES (19, "Andersson ", "Cosmo", "Vasemmistoliitto", "Joensuu", 41, "Minusta saisi omistautuneet kansanedustajan jolla on vapauteen ja sosiaaliseen oikeudenmukaisuuteen pohjautuvat arvot, vahvat mielipiteet ja kykya yhteistyahan. Olen uskonnoton yksilanvapauden kannattaja.  NATO myanteinen, ydinvoiman kannattaja.");
+INSERT INTO CANDIDATES VALUES (20, "Andersson", "Essi", "Suomen ruotsalainen kansanpuolue", "Kouvola", 63, "SUOMEN TALOUSNaKYMaT OVAT KATASTROFAALISIA  On tarkea alkaa kohottamaan Suomen taloutta.   Sita varten pitaa saada paatasvallan Suomeen  eroamalla EU:sta ja jostakin muista liitoista. Mnulla on fysiikan tohtorina vahva tieteellinen koulutus ja ohjelmistoyrittajana paljon kokemusta yhteiskunnasta, ml. julkishallinnosta. Nakemys ja kyky uudistuksiin on vahvuuteni.");
+
+INSERT INTO QUESTIONS VALUES (1, "Suomessa on liian helppo elaa sosiaaliturvan varassa");
+INSERT INTO QUESTIONS VALUES (2, "Kaupan ja muiden liikkeiden aukioloajat on vapautettava.");
+INSERT INTO QUESTIONS VALUES (3, "Suomessa on siirryttava perustuloon joka korvaisi nykyisen sosiaaliturvan vahimmaistason.");
+INSERT INTO QUESTIONS VALUES (4, "Tyantekijalle on turvattava lailla minimityaaika.");
+INSERT INTO QUESTIONS VALUES (5, "Ansiosidonnaisen tyattamyysturvan kestoa pitaa lyhentaa.");
+INSERT INTO QUESTIONS VALUES (6, "Euron ulkopuolella Suomi parjaisi paremmin.");
+INSERT INTO QUESTIONS VALUES (7, "Ruoan verotusta on varaa kiristaa.");
+INSERT INTO QUESTIONS VALUES (8, "Valtion ja kuntien taloutta on tasapainotettava ensisijaisesti leikkaamalla menoja.");
+INSERT INTO QUESTIONS VALUES (9, "Lapsilisia on korotettava ja laitettava verolle.");
+INSERT INTO QUESTIONS VALUES (10, "Suomella ei ole varaa nykyisen laajuisiin sosiaali- ja terveyspalveluihin.");
+INSERT INTO QUESTIONS VALUES (11, "Nato-jasenyys vahvistaisi Suomen turvallisuuspoliittista asemaa.");
+INSERT INTO QUESTIONS VALUES (12, "Suomeen tarvitaan enemman poliiseja.");
+INSERT INTO QUESTIONS VALUES (13, "Maahanmuuttoa Suomeen on rajoitettava terrorismin uhan vuoksi.");
+INSERT INTO QUESTIONS VALUES (14, "Venajan etupiiripolitiikka on uhka Suomelle.");
+INSERT INTO QUESTIONS VALUES (15, "Verkkovalvonnassa valtion turvallisuus on tarkeampaa kuin kansalaisten yksityisyyden suoja.");
+INSERT INTO QUESTIONS VALUES (16, "Suomen on osallistuttava Isisin vastaiseen taisteluun kouluttamalla Irakin hallituksen joukkoja.");
+INSERT INTO QUESTIONS VALUES (17, "Parantumattomasti sairaalla on oltava oikeus avustettuun kuolemaan.");
+INSERT INTO QUESTIONS VALUES (18, "Terveys- ja sosiaalipalvelut on tuotettava ensijaisesti julkisina palveluina.");
+INSERT INTO QUESTIONS VALUES (19, "Viranomaisten pitaa puuttua lapsiperheiden ongelmiin nykyista herkemmin.");
+
+INSERT INTO ANSWERS VALUES (1, 1, 3);
+INSERT INTO ANSWERS VALUES (1, 2, 4);
+INSERT INTO ANSWERS VALUES (1, 3, 3);
+INSERT INTO ANSWERS VALUES (1, 4, 3);
+INSERT INTO ANSWERS VALUES (1, 5, 1);
+INSERT INTO ANSWERS VALUES (1, 6, 2);
+INSERT INTO ANSWERS VALUES (1, 7, 2);
+INSERT INTO ANSWERS VALUES (1, 8, 2);
+INSERT INTO ANSWERS VALUES (1, 9, 3);
+INSERT INTO ANSWERS VALUES (1, 10, 5);
+INSERT INTO ANSWERS VALUES (1, 11, 4);
+INSERT INTO ANSWERS VALUES (1, 12, 5);
+INSERT INTO ANSWERS VALUES (1, 13, 3);
+INSERT INTO ANSWERS VALUES (1, 14, 5);
+INSERT INTO ANSWERS VALUES (1, 15, 3);
+INSERT INTO ANSWERS VALUES (1, 16, 2);
+INSERT INTO ANSWERS VALUES (1, 17, 5);
+INSERT INTO ANSWERS VALUES (1, 18, 2);
+INSERT INTO ANSWERS VALUES (1, 19, 4);
+
+INSERT INTO ANSWERS VALUES (2, 1, 4);
+INSERT INTO ANSWERS VALUES (2, 2, 5);
+INSERT INTO ANSWERS VALUES (2, 3, 1);
+INSERT INTO ANSWERS VALUES (2, 4, 4);
+INSERT INTO ANSWERS VALUES (2, 5, 1);
+INSERT INTO ANSWERS VALUES (2, 6, 2);
+INSERT INTO ANSWERS VALUES (2, 7, 3);
+INSERT INTO ANSWERS VALUES (2, 8, 1);
+INSERT INTO ANSWERS VALUES (2, 9, 3);
+INSERT INTO ANSWERS VALUES (2, 10, 2);
+INSERT INTO ANSWERS VALUES (2, 11, 5);
+INSERT INTO ANSWERS VALUES (2, 12, 1);
+INSERT INTO ANSWERS VALUES (2, 13, 1);
+INSERT INTO ANSWERS VALUES (2, 14, 3);
+INSERT INTO ANSWERS VALUES (2, 15, 5);
+INSERT INTO ANSWERS VALUES (2, 16, 4);
+INSERT INTO ANSWERS VALUES (2, 17, 4);
+INSERT INTO ANSWERS VALUES (2, 18, 1);
+INSERT INTO ANSWERS VALUES (2, 19, 1);
+
+INSERT INTO ANSWERS VALUES (3, 1, 5);
+INSERT INTO ANSWERS VALUES (3, 2, 2);
+INSERT INTO ANSWERS VALUES (3, 3, 4);
+INSERT INTO ANSWERS VALUES (3, 4, 3);
+INSERT INTO ANSWERS VALUES (3, 5, 1);
+INSERT INTO ANSWERS VALUES (3, 6, 3);
+INSERT INTO ANSWERS VALUES (3, 7, 4);
+INSERT INTO ANSWERS VALUES (3, 8, 1);
+INSERT INTO ANSWERS VALUES (3, 9, 1);
+INSERT INTO ANSWERS VALUES (3, 10, 5);
+INSERT INTO ANSWERS VALUES (3, 11, 5);
+INSERT INTO ANSWERS VALUES (3, 12, 2);
+INSERT INTO ANSWERS VALUES (3, 13, 1);
+INSERT INTO ANSWERS VALUES (3, 14, 3);
+INSERT INTO ANSWERS VALUES (3, 15, 4);
+INSERT INTO ANSWERS VALUES (3, 16, 4);
+INSERT INTO ANSWERS VALUES (3, 17, 4);
+INSERT INTO ANSWERS VALUES (3, 18, 1);
+INSERT INTO ANSWERS VALUES (3, 19, 1);
+
+INSERT INTO ANSWERS VALUES (4, 1, 5);
+INSERT INTO ANSWERS VALUES (4, 2, 5);
+INSERT INTO ANSWERS VALUES (4, 3, 2);
+INSERT INTO ANSWERS VALUES (4, 4, 4);
+INSERT INTO ANSWERS VALUES (4, 5, 1);
+INSERT INTO ANSWERS VALUES (4, 6, 1);
+INSERT INTO ANSWERS VALUES (4, 7, 5);
+INSERT INTO ANSWERS VALUES (4, 8, 3);
+INSERT INTO ANSWERS VALUES (4, 9, 4);
+INSERT INTO ANSWERS VALUES (4, 10, 3);
+INSERT INTO ANSWERS VALUES (4, 11, 2);
+INSERT INTO ANSWERS VALUES (4, 12, 5);
+INSERT INTO ANSWERS VALUES (4, 13, 3);
+INSERT INTO ANSWERS VALUES (4, 14, 4);
+INSERT INTO ANSWERS VALUES (4, 15, 4);
+INSERT INTO ANSWERS VALUES (4, 16, 5);
+INSERT INTO ANSWERS VALUES (4, 17, 4);
+INSERT INTO ANSWERS VALUES (4, 18, 1);
+INSERT INTO ANSWERS VALUES (4, 19, 1);
+
+INSERT INTO ANSWERS VALUES (5, 1, 4);
+INSERT INTO ANSWERS VALUES (5, 2, 1);
+INSERT INTO ANSWERS VALUES (5, 3, 3);
+INSERT INTO ANSWERS VALUES (5, 4, 3);
+INSERT INTO ANSWERS VALUES (5, 5, 5);
+INSERT INTO ANSWERS VALUES (5, 6, 1);
+INSERT INTO ANSWERS VALUES (5, 7, 1);
+INSERT INTO ANSWERS VALUES (5, 8, 2);
+INSERT INTO ANSWERS VALUES (5, 9, 1);
+INSERT INTO ANSWERS VALUES (5, 10, 3);
+INSERT INTO ANSWERS VALUES (5, 11, 2);
+INSERT INTO ANSWERS VALUES (5, 12, 3);
+INSERT INTO ANSWERS VALUES (5, 13, 5);
+INSERT INTO ANSWERS VALUES (5, 14, 4);
+INSERT INTO ANSWERS VALUES (5, 15, 3);
+INSERT INTO ANSWERS VALUES (5, 16, 5);
+INSERT INTO ANSWERS VALUES (5, 17, 2);
+INSERT INTO ANSWERS VALUES (5, 18, 1);
+INSERT INTO ANSWERS VALUES (5, 19, 3);
+
+INSERT INTO ANSWERS VALUES (6, 1, 3);
+INSERT INTO ANSWERS VALUES (6, 2, 5);
+INSERT INTO ANSWERS VALUES (6, 3, 1);
+INSERT INTO ANSWERS VALUES (6, 4, 1);
+INSERT INTO ANSWERS VALUES (6, 5, 3);
+INSERT INTO ANSWERS VALUES (6, 6, 2);
+INSERT INTO ANSWERS VALUES (6, 7, 1);
+INSERT INTO ANSWERS VALUES (6, 8, 5);
+INSERT INTO ANSWERS VALUES (6, 9, 3);
+INSERT INTO ANSWERS VALUES (6, 10, 1);
+INSERT INTO ANSWERS VALUES (6, 11, 4);
+INSERT INTO ANSWERS VALUES (6, 12, 2);
+INSERT INTO ANSWERS VALUES (6, 13, 5);
+INSERT INTO ANSWERS VALUES (6, 14, 5);
+INSERT INTO ANSWERS VALUES (6, 15, 5);
+INSERT INTO ANSWERS VALUES (6, 16, 4);
+INSERT INTO ANSWERS VALUES (6, 17, 5);
+INSERT INTO ANSWERS VALUES (6, 18, 1);
+INSERT INTO ANSWERS VALUES (6, 19, 4);
+
+INSERT INTO ANSWERS VALUES (7, 1, 3);
+INSERT INTO ANSWERS VALUES (7, 2, 1);
+INSERT INTO ANSWERS VALUES (7, 3, 2);
+INSERT INTO ANSWERS VALUES (7, 4, 2);
+INSERT INTO ANSWERS VALUES (7, 5, 4);
+INSERT INTO ANSWERS VALUES (7, 6, 2);
+INSERT INTO ANSWERS VALUES (7, 7, 4);
+INSERT INTO ANSWERS VALUES (7, 8, 2);
+INSERT INTO ANSWERS VALUES (7, 9, 2);
+INSERT INTO ANSWERS VALUES (7, 10, 5);
+INSERT INTO ANSWERS VALUES (7, 11, 1);
+INSERT INTO ANSWERS VALUES (7, 12, 4);
+INSERT INTO ANSWERS VALUES (7, 13, 3);
+INSERT INTO ANSWERS VALUES (7, 14, 3);
+INSERT INTO ANSWERS VALUES (7, 15, 3);
+INSERT INTO ANSWERS VALUES (7, 16, 5);
+INSERT INTO ANSWERS VALUES (7, 17, 4);
+INSERT INTO ANSWERS VALUES (7, 18, 4);
+INSERT INTO ANSWERS VALUES (7, 19, 1);
+
+INSERT INTO ANSWERS VALUES (8, 1, 5);
+INSERT INTO ANSWERS VALUES (8, 2, 3);
+INSERT INTO ANSWERS VALUES (8, 3, 2);
+INSERT INTO ANSWERS VALUES (8, 4, 3);
+INSERT INTO ANSWERS VALUES (8, 5, 3);
+INSERT INTO ANSWERS VALUES (8, 6, 3);
+INSERT INTO ANSWERS VALUES (8, 7, 2);
+INSERT INTO ANSWERS VALUES (8, 8, 5);
+INSERT INTO ANSWERS VALUES (8, 9, 1);
+INSERT INTO ANSWERS VALUES (8, 10, 1);
+INSERT INTO ANSWERS VALUES (8, 11, 3);
+INSERT INTO ANSWERS VALUES (8, 12, 4);
+INSERT INTO ANSWERS VALUES (8, 13, 3);
+INSERT INTO ANSWERS VALUES (8, 14, 2);
+INSERT INTO ANSWERS VALUES (8, 15, 5);
+INSERT INTO ANSWERS VALUES (8, 16, 5);
+INSERT INTO ANSWERS VALUES (8, 17, 1);
+INSERT INTO ANSWERS VALUES (8, 18, 2);
+INSERT INTO ANSWERS VALUES (8, 19, 3);
+
+INSERT INTO ANSWERS VALUES (9, 1, 5);
+INSERT INTO ANSWERS VALUES (9, 2, 4);
+INSERT INTO ANSWERS VALUES (9, 3, 2);
+INSERT INTO ANSWERS VALUES (9, 4, 2);
+INSERT INTO ANSWERS VALUES (9, 5, 3);
+INSERT INTO ANSWERS VALUES (9, 6, 2);
+INSERT INTO ANSWERS VALUES (9, 7, 5);
+INSERT INTO ANSWERS VALUES (9, 8, 4);
+INSERT INTO ANSWERS VALUES (9, 9, 2);
+INSERT INTO ANSWERS VALUES (9, 10, 4);
+INSERT INTO ANSWERS VALUES (9, 11, 4);
+INSERT INTO ANSWERS VALUES (9, 12, 1);
+INSERT INTO ANSWERS VALUES (9, 13, 2);
+INSERT INTO ANSWERS VALUES (9, 14, 3);
+INSERT INTO ANSWERS VALUES (9, 15, 4);
+INSERT INTO ANSWERS VALUES (9, 16, 4);
+INSERT INTO ANSWERS VALUES (9, 17, 2);
+INSERT INTO ANSWERS VALUES (9, 18, 1);
+INSERT INTO ANSWERS VALUES (9, 19, 1);
+
+INSERT INTO ANSWERS VALUES (10, 1, 3);
+INSERT INTO ANSWERS VALUES (10, 2, 4);
+INSERT INTO ANSWERS VALUES (10, 3, 4);
+INSERT INTO ANSWERS VALUES (10, 4, 1);
+INSERT INTO ANSWERS VALUES (10, 5, 2);
+INSERT INTO ANSWERS VALUES (10, 6, 2);
+INSERT INTO ANSWERS VALUES (10, 7, 2);
+INSERT INTO ANSWERS VALUES (10, 8, 2);
+INSERT INTO ANSWERS VALUES (10, 9, 2);
+INSERT INTO ANSWERS VALUES (10, 10, 1);
+INSERT INTO ANSWERS VALUES (10, 11, 4);
+INSERT INTO ANSWERS VALUES (10, 12, 2);
+INSERT INTO ANSWERS VALUES (10, 13, 1);
+INSERT INTO ANSWERS VALUES (10, 14, 2);
+INSERT INTO ANSWERS VALUES (10, 15, 5);
+INSERT INTO ANSWERS VALUES (10, 16, 1);
+INSERT INTO ANSWERS VALUES (10, 17, 4);
+INSERT INTO ANSWERS VALUES (10, 18, 5);
+INSERT INTO ANSWERS VALUES (10, 19, 5);
+
+INSERT INTO ANSWERS VALUES (11, 1, 1);
+INSERT INTO ANSWERS VALUES (11, 2, 5);
+INSERT INTO ANSWERS VALUES (11, 3, 5);
+INSERT INTO ANSWERS VALUES (11, 4, 3);
+INSERT INTO ANSWERS VALUES (11, 5, 3);
+INSERT INTO ANSWERS VALUES (11, 6, 5);
+INSERT INTO ANSWERS VALUES (11, 7, 3);
+INSERT INTO ANSWERS VALUES (11, 8, 2);
+INSERT INTO ANSWERS VALUES (11, 9, 3);
+INSERT INTO ANSWERS VALUES (11, 10, 4);
+INSERT INTO ANSWERS VALUES (11, 11, 5);
+INSERT INTO ANSWERS VALUES (11, 12, 3);
+INSERT INTO ANSWERS VALUES (11, 13, 4);
+INSERT INTO ANSWERS VALUES (11, 14, 3);
+INSERT INTO ANSWERS VALUES (11, 15, 3);
+INSERT INTO ANSWERS VALUES (11, 16, 4);
+INSERT INTO ANSWERS VALUES (11, 17, 3);
+INSERT INTO ANSWERS VALUES (11, 18, 4);
+INSERT INTO ANSWERS VALUES (11, 19, 4);
+
+INSERT INTO ANSWERS VALUES (12, 1, 1);
+INSERT INTO ANSWERS VALUES (12, 2, 4);
+INSERT INTO ANSWERS VALUES (12, 3, 3);
+INSERT INTO ANSWERS VALUES (12, 4, 4);
+INSERT INTO ANSWERS VALUES (12, 5, 2);
+INSERT INTO ANSWERS VALUES (12, 6, 2);
+INSERT INTO ANSWERS VALUES (12, 7, 5);
+INSERT INTO ANSWERS VALUES (12, 8, 4);
+INSERT INTO ANSWERS VALUES (12, 9, 2);
+INSERT INTO ANSWERS VALUES (12, 10, 1);
+INSERT INTO ANSWERS VALUES (12, 11, 3);
+INSERT INTO ANSWERS VALUES (12, 12, 4);
+INSERT INTO ANSWERS VALUES (12, 13, 1);
+INSERT INTO ANSWERS VALUES (12, 14, 4);
+INSERT INTO ANSWERS VALUES (12, 15, 5);
+INSERT INTO ANSWERS VALUES (12, 16, 4);
+INSERT INTO ANSWERS VALUES (12, 17, 3);
+INSERT INTO ANSWERS VALUES (12, 18, 2);
+INSERT INTO ANSWERS VALUES (12, 19, 1);
+
+INSERT INTO ANSWERS VALUES (13, 1, 3);
+INSERT INTO ANSWERS VALUES (13, 2, 2);
+INSERT INTO ANSWERS VALUES (13, 3, 4);
+INSERT INTO ANSWERS VALUES (13, 4, 5);
+INSERT INTO ANSWERS VALUES (13, 5, 3);
+INSERT INTO ANSWERS VALUES (13, 6, 5);
+INSERT INTO ANSWERS VALUES (13, 7, 3);
+INSERT INTO ANSWERS VALUES (13, 8, 2);
+INSERT INTO ANSWERS VALUES (13, 9, 1);
+INSERT INTO ANSWERS VALUES (13, 10, 5);
+INSERT INTO ANSWERS VALUES (13, 11, 2);
+INSERT INTO ANSWERS VALUES (13, 12, 5);
+INSERT INTO ANSWERS VALUES (13, 13, 4);
+INSERT INTO ANSWERS VALUES (13, 14, 5);
+INSERT INTO ANSWERS VALUES (13, 15, 2);
+INSERT INTO ANSWERS VALUES (13, 16, 1);
+INSERT INTO ANSWERS VALUES (13, 17, 2);
+INSERT INTO ANSWERS VALUES (13, 18, 4);
+INSERT INTO ANSWERS VALUES (13, 19, 5);
+
+INSERT INTO ANSWERS VALUES (14, 1, 3);
+INSERT INTO ANSWERS VALUES (14, 2, 1);
+INSERT INTO ANSWERS VALUES (14, 3, 1);
+INSERT INTO ANSWERS VALUES (14, 4, 5);
+INSERT INTO ANSWERS VALUES (14, 5, 1);
+INSERT INTO ANSWERS VALUES (14, 6, 4);
+INSERT INTO ANSWERS VALUES (14, 7, 2);
+INSERT INTO ANSWERS VALUES (14, 8, 3);
+INSERT INTO ANSWERS VALUES (14, 9, 4);
+INSERT INTO ANSWERS VALUES (14, 10, 3);
+INSERT INTO ANSWERS VALUES (14, 11, 1);
+INSERT INTO ANSWERS VALUES (14, 12, 2);
+INSERT INTO ANSWERS VALUES (14, 13, 5);
+INSERT INTO ANSWERS VALUES (14, 14, 4);
+INSERT INTO ANSWERS VALUES (14, 15, 4);
+INSERT INTO ANSWERS VALUES (14, 16, 2);
+INSERT INTO ANSWERS VALUES (14, 17, 4);
+INSERT INTO ANSWERS VALUES (14, 18, 1);
+INSERT INTO ANSWERS VALUES (14, 19, 1);
+
+INSERT INTO ANSWERS VALUES (15, 1, 4);
+INSERT INTO ANSWERS VALUES (15, 2, 3);
+INSERT INTO ANSWERS VALUES (15, 3, 3);
+INSERT INTO ANSWERS VALUES (15, 4, 1);
+INSERT INTO ANSWERS VALUES (15, 5, 2);
+INSERT INTO ANSWERS VALUES (15, 6, 5);
+INSERT INTO ANSWERS VALUES (15, 7, 2);
+INSERT INTO ANSWERS VALUES (15, 8, 1);
+INSERT INTO ANSWERS VALUES (15, 9, 4);
+INSERT INTO ANSWERS VALUES (15, 10, 2);
+INSERT INTO ANSWERS VALUES (15, 11, 3);
+INSERT INTO ANSWERS VALUES (15, 12, 2);
+INSERT INTO ANSWERS VALUES (15, 13, 3);
+INSERT INTO ANSWERS VALUES (15, 14, 2);
+INSERT INTO ANSWERS VALUES (15, 15, 5);
+INSERT INTO ANSWERS VALUES (15, 16, 4);
+INSERT INTO ANSWERS VALUES (15, 17, 3);
+INSERT INTO ANSWERS VALUES (15, 18, 3);
+INSERT INTO ANSWERS VALUES (15, 19, 4);
+
+INSERT INTO ANSWERS VALUES (16, 1, 2);
+INSERT INTO ANSWERS VALUES (16, 2, 3);
+INSERT INTO ANSWERS VALUES (16, 3, 2);
+INSERT INTO ANSWERS VALUES (16, 4, 4);
+INSERT INTO ANSWERS VALUES (16, 5, 5);
+INSERT INTO ANSWERS VALUES (16, 6, 3);
+INSERT INTO ANSWERS VALUES (16, 7, 5);
+INSERT INTO ANSWERS VALUES (16, 8, 1);
+INSERT INTO ANSWERS VALUES (16, 9, 1);
+INSERT INTO ANSWERS VALUES (16, 10, 3);
+INSERT INTO ANSWERS VALUES (16, 11, 4);
+INSERT INTO ANSWERS VALUES (16, 12, 5);
+INSERT INTO ANSWERS VALUES (16, 13, 5);
+INSERT INTO ANSWERS VALUES (16, 14, 3);
+INSERT INTO ANSWERS VALUES (16, 15, 1);
+INSERT INTO ANSWERS VALUES (16, 16, 5);
+INSERT INTO ANSWERS VALUES (16, 17, 2);
+INSERT INTO ANSWERS VALUES (16, 18, 3);
+INSERT INTO ANSWERS VALUES (16, 19, 5);
+
+INSERT INTO ANSWERS VALUES (17, 1, 1);
+INSERT INTO ANSWERS VALUES (17, 2, 5);
+INSERT INTO ANSWERS VALUES (17, 3, 3);
+INSERT INTO ANSWERS VALUES (17, 4, 5);
+INSERT INTO ANSWERS VALUES (17, 5, 2);
+INSERT INTO ANSWERS VALUES (17, 6, 2);
+INSERT INTO ANSWERS VALUES (17, 7, 5);
+INSERT INTO ANSWERS VALUES (17, 8, 4);
+INSERT INTO ANSWERS VALUES (17, 9, 1);
+INSERT INTO ANSWERS VALUES (17, 10, 4);
+INSERT INTO ANSWERS VALUES (17, 11, 4);
+INSERT INTO ANSWERS VALUES (17, 12, 2);
+INSERT INTO ANSWERS VALUES (17, 13, 3);
+INSERT INTO ANSWERS VALUES (17, 14, 1);
+INSERT INTO ANSWERS VALUES (17, 15, 3);
+INSERT INTO ANSWERS VALUES (17, 16, 3);
+INSERT INTO ANSWERS VALUES (17, 17, 1);
+INSERT INTO ANSWERS VALUES (17, 18, 3);
+INSERT INTO ANSWERS VALUES (17, 19, 4);
+
+INSERT INTO ANSWERS VALUES (18, 1, 5);
+INSERT INTO ANSWERS VALUES (18, 2, 4);
+INSERT INTO ANSWERS VALUES (18, 3, 4);
+INSERT INTO ANSWERS VALUES (18, 4, 5);
+INSERT INTO ANSWERS VALUES (18, 5, 2);
+INSERT INTO ANSWERS VALUES (18, 6, 2);
+INSERT INTO ANSWERS VALUES (18, 7, 3);
+INSERT INTO ANSWERS VALUES (18, 8, 4);
+INSERT INTO ANSWERS VALUES (18, 9, 5);
+INSERT INTO ANSWERS VALUES (18, 10, 3);
+INSERT INTO ANSWERS VALUES (18, 11, 5);
+INSERT INTO ANSWERS VALUES (18, 12, 1);
+INSERT INTO ANSWERS VALUES (18, 13, 2);
+INSERT INTO ANSWERS VALUES (18, 14, 1);
+INSERT INTO ANSWERS VALUES (18, 15, 5);
+INSERT INTO ANSWERS VALUES (18, 16, 1);
+INSERT INTO ANSWERS VALUES (18, 17, 1);
+INSERT INTO ANSWERS VALUES (18, 18, 4);
+INSERT INTO ANSWERS VALUES (18, 19, 4);
+
+INSERT INTO ANSWERS VALUES (19, 1, 1);
+INSERT INTO ANSWERS VALUES (19, 2, 2);
+INSERT INTO ANSWERS VALUES (19, 3, 3);
+INSERT INTO ANSWERS VALUES (19, 4, 5);
+INSERT INTO ANSWERS VALUES (19, 5, 3);
+INSERT INTO ANSWERS VALUES (19, 6, 3);
+INSERT INTO ANSWERS VALUES (19, 7, 3);
+INSERT INTO ANSWERS VALUES (19, 8, 4);
+INSERT INTO ANSWERS VALUES (19, 9, 4);
+INSERT INTO ANSWERS VALUES (19, 10, 2);
+INSERT INTO ANSWERS VALUES (19, 11, 4);
+INSERT INTO ANSWERS VALUES (19, 12, 3);
+INSERT INTO ANSWERS VALUES (19, 13, 4);
+INSERT INTO ANSWERS VALUES (19, 14, 5);
+INSERT INTO ANSWERS VALUES (19, 15, 4);
+INSERT INTO ANSWERS VALUES (19, 16, 1);
+INSERT INTO ANSWERS VALUES (19, 17, 1);
+INSERT INTO ANSWERS VALUES (19, 18, 5);
+INSERT INTO ANSWERS VALUES (19, 19, 1);
+
+INSERT INTO ANSWERS VALUES (20, 1, 4);
+INSERT INTO ANSWERS VALUES (20, 2, 3);
+INSERT INTO ANSWERS VALUES (20, 3, 2);
+INSERT INTO ANSWERS VALUES (20, 4, 2);
+INSERT INTO ANSWERS VALUES (20, 5, 5);
+INSERT INTO ANSWERS VALUES (20, 6, 2);
+INSERT INTO ANSWERS VALUES (20, 7, 4);
+INSERT INTO ANSWERS VALUES (20, 8, 3);
+INSERT INTO ANSWERS VALUES (20, 9, 4);
+INSERT INTO ANSWERS VALUES (20, 10, 3);
+INSERT INTO ANSWERS VALUES (20, 11, 4);
+INSERT INTO ANSWERS VALUES (20, 12, 5);
+INSERT INTO ANSWERS VALUES (20, 13, 4);
+INSERT INTO ANSWERS VALUES (20, 14, 2);
+INSERT INTO ANSWERS VALUES (20, 15, 4);
+INSERT INTO ANSWERS VALUES (20, 16, 1);
+INSERT INTO ANSWERS VALUES (20, 17, 4);
+INSERT INTO ANSWERS VALUES (20, 18, 1);
+INSERT INTO ANSWERS VALUES (20, 19, 5);
