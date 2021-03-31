@@ -1,12 +1,13 @@
 package lauri.test;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Model {
 	static String dbURL = "jdbc:mysql://localhost:3306/vaalikone";
@@ -14,6 +15,8 @@ public class Model {
 	static String password = "pswd";
 	
 	static Connection dbConn;
+	
+	static ArrayList<Integer> vastaukset = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 4, 1, 1, 2, 3, 4, 4, 1, 1, 2, 3, 4, 4, 1, 2));
 	
 	protected void TestConnection() {
 		try {
@@ -26,15 +29,14 @@ public class Model {
 		}
 	}
 	
-	protected int GetAnswersFor(int candidateNumber, int questionNumber) {
+	protected int GetAnswersFor(int candidateID, int questionID) {
 		String sql = "SELECT ANSWER FROM answers WHERE CANDIDATE_ID = ? AND QUESTION_ID = ?";
-
 		try {
 			PreparedStatement statement = dbConn.prepareStatement(sql);
-			statement.setInt(1, candidateNumber);
-			statement.setInt(2, questionNumber);
+			statement.setInt(1, candidateID);
+			statement.setInt(2, questionID);
 			
-			ResultSet answer = statement.executeQuery(sql);
+			ResultSet answer = statement.executeQuery();
 			return answer.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,19 +45,34 @@ public class Model {
 		}
 	}
 
-	protected int GetAnswersFor(int candidateNumber) {
+	protected ArrayList<Integer> GetAnswersFor(int candidateID) {
 		String sql = "SELECT ANSWER FROM answers WHERE CANDIDATE_ID = ?";
+		ArrayList<Integer> candidateAnswers = new ArrayList<Integer>();
 
 		try {
 			PreparedStatement statement = dbConn.prepareStatement(sql);
-			statement.setInt(1, candidateNumber);
+			statement.setInt(1, candidateID);
 			
-			ResultSet answer = statement.executeQuery(sql);
-			return answer.getInt(1);
+			ResultSet answer = statement.executeQuery();
+			while (answer.next()) {
+				candidateAnswers.add(answer.getInt(1));
+            	System.out.println(answer.getInt(1));
+			};
+			return candidateAnswers;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("There was an error fetching the answers. (Candidate numbers 1-19, questions 1-20");
-			return -1;
+			candidateAnswers.add(-1);
+			return candidateAnswers;
 		}
+	}
+	
+	protected int CompareResults(int candidateAnswer, int userAnswer) {
+		int difference = candidateAnswer - userAnswer;
+		if (difference < 0) {
+			difference = Math.abs(difference);
+		}
+		difference = 100 - difference * 25;
+		return difference;
 	}
 }

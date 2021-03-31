@@ -38,18 +38,16 @@ public class View extends HttpServlet {
 		Controller.response = response;
 		response.setContentType("text/html;charset=UTF-8");
 		
-		int candidate_id = 0;
-		int question_id = 0;
+		int candidateID = 0;
+		int questionID = 0;
 		
 		try {
-			candidate_id = Integer.parseInt(request.getParameter("candidate_id"));
-			System.out.println(candidate_id);
-			question_id = Integer.parseInt(request.getParameter("question_id"));
-			System.out.println(question_id);
+			candidateID = Integer.parseInt(request.getParameter("candidateID"));
+			questionID = Integer.parseInt(request.getParameter("questionID"));
 		} catch (Exception e) {
 			response.getWriter().println("There was an error.");
 			System.exit(0);
 		}
-		controller.GetFromDatabase(candidate_id, question_id);
+		controller.GetFromDatabase(candidateID, questionID);
 	}
 }
