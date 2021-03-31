@@ -27,6 +27,8 @@ public class HelloAppEngine extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
     	
+    	// The needed variables for the program
+    	
     	String driver = "com.mysql.jdbc.Driver";
 		String DBpath = "//localhost/vaalikone";
 		String username = "root";
@@ -34,82 +36,71 @@ public class HelloAppEngine extends HttpServlet {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
+		//Create a connection to the database
     	
-		try {
+		 try {
 			Class.forName(driver).newInstance();
 		} catch (Exception ex) {
-			Logger.getLogger(show2.class.getName()).log(Level.SEVERE, "poo!!", ex);
+			Logger.getLogger(HelloAppEngine.class.getName()).log(Level.SEVERE, "poo!!", ex);
 		}
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql:" + DBpath, username, password);
 		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		try {
 			stmt = con.createStatement();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		//What to search from the database
 
 		String sql;
-
 		sql = "Select*From questions";
+		
+		//Executing the query from the database
 		
 		try {
 			rs = stmt.executeQuery(sql);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.print(rs);
-
-		try {
-			int i = rs.getInt("QUESTION_ID"); // There is also other version for getInt which relies on column index number
-			System.out.println("i: " + i + "\n");
-
-		} catch (Exception ex) {
-			System.out.println("*** Failure ***");
+		} catch (SQLException e3) {
+			e3.printStackTrace();
 		}
 
-		ArrayList<String> first_name = new ArrayList<String>();
+		ArrayList<String> QUESTION = new ArrayList<String>();
+		ArrayList<Integer> QUESTION_ID = new ArrayList<>();
 		
 		
 		try {
 			while (rs.next()) {
 				int a = rs.getInt("QUESTION_ID");
 				String i1 = rs.getString("QUESTION");
-				first_name.add(i1);
-				System.out.println(a);
+				QUESTION_ID.add(a);
+				QUESTION.add(i1);
 
 			}
 		} catch (Exception ex1) {
 			System.out.println("*** Failure ***");
 		}
 		response.setContentType("text/plain");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().print("Election Machine\r\n");
-    	
+    	response.setCharacterEncoding("UTF-8");   	
     	response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        
+        out.println("<p>");
+        response.getWriter().print("Election Machine\r\n");
+        out.println("<br>");
+        response.getWriter().print("Questions\r\n");
+        out.println("</p>");
         out.println("<html>");
         out.println("<body>");
         out.println("<ul>");
         
-        out.println("<li>"+ 1 +" "+ first_name.get(0) + "</li>");
-        out.println("\n");
-        
-        for (int i = 2; i<19; i++) {
-        	
-        	out.println("<li>"+ i +" "+ first_name.get(i) + "</li>");
-            out.println("\n");
-            }
-        out.println("</ul>");
-        out.println("</body></html>");
-
+        int index = 1;
+		for (String x : QUESTION) {	
+			out.println("<li>"+ String.valueOf(index++)+": "+ x + "</li>");
+        }
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
