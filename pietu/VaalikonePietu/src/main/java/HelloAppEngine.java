@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @WebServlet(
     name = "HelloAppEngine",
-    urlPatterns = {"/hello"}
+    urlPatterns = {"/questions"}
 )
 public class HelloAppEngine extends HttpServlet {
 	  	
@@ -36,6 +36,10 @@ public class HelloAppEngine extends HttpServlet {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
+		model m = new model();
+		
+
 		
 		//Create a connection to the database
     	
@@ -56,6 +60,8 @@ public class HelloAppEngine extends HttpServlet {
 			e1.printStackTrace();
 		}
 		
+	
+		
 		//What to search from the database
 
 		String sql;
@@ -68,7 +74,8 @@ public class HelloAppEngine extends HttpServlet {
 		} catch (SQLException e3) {
 			e3.printStackTrace();
 		}
-
+		
+		// Creating arraylists to store the data
 		ArrayList<String> QUESTION = new ArrayList<String>();
 		ArrayList<Integer> QUESTION_ID = new ArrayList<>();
 		
@@ -79,28 +86,69 @@ public class HelloAppEngine extends HttpServlet {
 				String i1 = rs.getString("QUESTION");
 				QUESTION_ID.add(a);
 				QUESTION.add(i1);
-
 			}
 		} catch (Exception ex1) {
 			System.out.println("*** Failure ***");
 		}
+		
+		
+		m.getConnection();
+		
+		
+		
 		response.setContentType("text/plain");
     	response.setCharacterEncoding("UTF-8");   	
     	response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        
         out.println("<p>");
         response.getWriter().print("Election Machine\r\n");
         out.println("<br>");
         response.getWriter().print("Questions\r\n");
+        
         out.println("</p>");
         out.println("<html>");
         out.println("<body>");
         out.println("<ul>");
         
+        String value;
+        
+        value = request.getParameter("Q1rad1");
+        
         int index = 1;
-		for (String x : QUESTION) {	
+		for (String x : QUESTION) {
 			out.println("<li>"+ String.valueOf(index++)+": "+ x + "</li>");
         }
+		
+		out.println("<p><form action = \"/submit\" method=\"GET\"");
+		index = 1;
+		for (int i = 0; i < 20; i++) {
+			out.println("<li>" + String.valueOf(index++));
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"1\"> Täysin eri mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"2\">  Eri mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"3\"> Neutraali");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"4\"> Samaa mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"5\"> Täysin samaa mieltä");
+			out.println("</li>");
+		}
+		
+		ArrayList<String> vastaukset = new ArrayList<>();
+		
+		/* for (int i = 0; i <20; i++) {
+			String value1 = request.getParameter("Q1rad");
+			vastaukset.add(value1);	
+			response.getWriter().print(value1);
+		}
+		*/
+
+		out.println("<input type=\"submit\" value=\"send\">");
+		
+		out.println("</form> </p>");
+		
+		out.println("</html>");
+        out.println("</body>");
+        out.println("</ul>");
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
