@@ -16,9 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 @WebServlet(
-    name = "HelloAppEngine",
-    urlPatterns = {"/getcandidates"}
-)
+    name = "getCandidates",
+    urlPatterns = {"/getcandidates"})
 public class getCandidates extends HttpServlet {
 
   @Override
@@ -113,9 +112,9 @@ public class getCandidates extends HttpServlet {
             out.println("<body>");
             out.println("<ul>");
             
-            for (int i = 0; i<19; i++) {
+            for (int i = 0; i<first_name.size(); i++) {
             	out.println("<li>" + first_name.get(i) + " " + last_name.get(i) + " " + age.get(i) + ", Puolue : " + party.get(i) +  ", Vaalipiiri: " + municipality.get(i) + "</li>");
-                out.println("\n");
+                out.println("<br>");
                 }
             out.println("</ul>");
             out.println("</body></html>");
