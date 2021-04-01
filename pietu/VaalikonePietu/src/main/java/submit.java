@@ -30,6 +30,7 @@ public class submit extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		System.out.println("Haloo");
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		for (int i= 0; i<20; i++) {
@@ -37,6 +38,7 @@ public class submit extends HttpServlet {
 			a.add(Integer.parseInt(request.getParameter(name)));			
 		}
 		for (int x : a) {
+			System.out.print("Njoooh");
 			System.out.println(x);
         }
 	}

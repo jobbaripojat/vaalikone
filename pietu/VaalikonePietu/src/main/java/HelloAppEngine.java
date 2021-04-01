@@ -24,9 +24,7 @@ public class HelloAppEngine extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		m.getConnection();
-
 		ArrayList<String> k = new ArrayList<>();
-
 		k = m.getQuestion();
 
 		response.setContentType("text/plain");
@@ -38,39 +36,35 @@ public class HelloAppEngine extends HttpServlet {
 		response.getWriter().print("Election Machine\r\n");
 		out.println("<br>");
 		response.getWriter().print("Questions\r\n");
-
 		out.println("</p>");
+		
 		out.println("<html>");
 		out.println("<body>");
 		out.println("<ul>");
 		
 		out.println("<p><form action = \"/submit\" method=\"GET\"");
-		out.println("</p>");
+		
 		
 		int index = 1;
 		for (int i = 0; i < 19; i++) {
 			out.println("<li>" + String.valueOf(index++));
 			out.println(k.get(i));
-			out.println("<p>");
-			out.println("</p>");
+			out.println("<br>");
 			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"1\"> Täysin eri mieltä");
 			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"2\">  Eri mieltä");
 			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"3\"> Neutraali");
 			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"4\"> Samaa mieltä");
 			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"5\"> Täysin samaa mieltä");
-			out.println("<p>");
-			out.println("</p>");
 			out.println("</li>");
 		}
 		
-		out.println("</ul>");
-
+		
 		ArrayList<String> vastaukset = new ArrayList<>();
 
 		for (int y = 0; y < 19; y++) {
-			String value1 = request.getParameter("Q1rad");
-			vastaukset.add(value1);
-			response.getWriter().print(value1);
+			String value = request.getParameter("Q1rad");
+			vastaukset.add(value);
+			response.getWriter().print(value);
 		}
 
 		out.println("<input type=\"submit\" value=\"send\">");
@@ -79,6 +73,7 @@ public class HelloAppEngine extends HttpServlet {
 
 		out.println("</html>");
 		out.println("</body>");
+		out.println("</ul>");
 
 	}
 
