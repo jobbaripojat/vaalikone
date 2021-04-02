@@ -12,7 +12,11 @@ import javax.servlet.annotation.*;
 public class View extends HttpServlet {
 
     private Controller controller;
-    
+
+	/**  
+	* register controller and create the view and model.
+	* test the database connection through Initialize()
+	*/
     public void RegisterController() {
         Model model = new Model();
         View view = new View();
@@ -23,7 +27,10 @@ public class View extends HttpServlet {
         
 		controller.Initialize();
     }
-    
+
+	/**  
+	* write the string to the response(.html file) given
+	*/
     public void WriteToDocument(String writable, HttpServletResponse response) {
 		try {
 			response.getWriter().println(writable);
@@ -50,4 +57,4 @@ public class View extends HttpServlet {
 		}
 		controller.GetFromDatabase(candidateID, questionID);
 	}
-}
+} 

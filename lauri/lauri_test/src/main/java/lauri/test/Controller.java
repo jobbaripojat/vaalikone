@@ -1,5 +1,6 @@
 package lauri.test;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,8 @@ public class Controller {
     private View view;
 	
 	static HttpServletResponse response;	
+	
+    DecimalFormat df = new DecimalFormat("###.##");
     
     public Controller(Model model, View frame) {
         this.model = model;
@@ -19,16 +22,23 @@ public class Controller {
     protected void Initialize() {
     	model.TestConnection();
     }
-    
+
+	/**  
+	* used to fetch a candidate's answer to a specific question from the database
+	* then we print out the results on to the .html file as a table
+	*/
     protected void GetFromDatabase(int candidateID, int questionID) {
     	if (questionID == 0) {
     		ArrayList<Integer> answer = model.GetAnswersFor(candidateID);
+    		
+    		float percentageMatch = model.CompareAnswers(candidateID);
+    		
+        	view.WriteToDocument("<table style='text-align:center'><tr><th>Candidate</th><th>User</th></tr>", response);
     		for (int i = 0; i < answer.size(); i++) {
-            	view.WriteToDocument(Integer.toString(answer.get(i)), response);
-            	view.WriteToDocument(Integer.toString(model.vastaukset.get(i)), response);
-            	view.WriteToDocument(Integer.toString(model.CompareResults(answer.get(i), model.vastaukset.get(i))), response);
-            	view.WriteToDocument("<br>", response);
+            	view.WriteToDocument("<tr><td>" + Integer.toString(answer.get(i)) + "</td>", response);
+            	view.WriteToDocument("<td>" + Integer.toString(model.vastaukset.get(i)) + "</td></tr>", response);
     		}
+    		view.WriteToDocument("<br><tr><td>Match: " + df.format(percentageMatch) + "%</td></tr></table>", response);
     	} else {
         	int answer = model.GetAnswersFor(candidateID, questionID);
         	view.WriteToDocument(Integer.toString(answer), response);
