@@ -18,13 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @WebServlet(name = "HelloAppEngine", urlPatterns = { "/questions" })
 public class HelloAppEngine extends HttpServlet {
-	model m = new model();
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		model m = new model();
+		int index = 1;
+		ArrayList<String> k = new ArrayList<>();
 
 		m.getConnection();
-		ArrayList<String> k = new ArrayList<>();
+
 		k = m.getQuestion();
 
 		response.setContentType("text/plain");
@@ -42,29 +45,29 @@ public class HelloAppEngine extends HttpServlet {
 		out.println("<body>");
 		out.println("<ul>");
 		
-		out.println("<p><form action = \"/submit\" method=\"GET\"");
+		out.println("<p><form action = \"/submit\" method=\"GET\">");
 		
 		
-		int index = 1;
 		for (int i = 0; i < 19; i++) {
 			out.println("<li>" + String.valueOf(index++));
 			out.println(k.get(i));
 			out.println("<br>");
-			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"1\"> Täysin eri mieltä");
-			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"2\">  Eri mieltä");
-			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"3\"> Neutraali");
-			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"4\"> Samaa mieltä");
-			out.println("<input type = \"radio\" name = \"Q" + i + "rad\" value = \"5\"> Täysin samaa mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"1\"> Täysin eri mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"2\">  Eri mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"3\"> Neutraali");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"4\"> Samaa mieltä");
+			out.println("<input type = \"radio\" name = \"Q"+i+"rad\" value = \"5\"> Täysin samaa mieltä");
+			out.println("<br>");
 			out.println("</li>");
+			
 		}
 		
 		
-		ArrayList<String> vastaukset = new ArrayList<>();
+		ArrayList<String> vastaukset = new ArrayList<String>();
 
-		for (int y = 0; y < 19; y++) {
-			String value = request.getParameter("Q1rad");
+		for (int i = 0; i < vastaukset.size(); i++) {
+			String value = request.getParameter("Q"+i+"rad");
 			vastaukset.add(value);
-			response.getWriter().print(value);
 		}
 
 		out.println("<input type=\"submit\" value=\"send\">");

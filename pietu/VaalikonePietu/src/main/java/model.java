@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 
 public class model {
 
-	String driver = "com.mysql.jdbc.Driver";
-	String DBpath = "//localhost/vaalikone";
-	String username = "root";
-	String password = "Zelja";
-	Connection con = null;
-	Statement stmt = null;
-	ResultSet rs = null;
+	protected String driver = "com.mysql.jdbc.Driver";
+	protected String DBpath = "//localhost/vaalikone";
+	protected String username = "root";
+	protected String password = "Zelja";
+	protected Connection con = null;
+	protected Statement stmt = null;
+	protected ResultSet rs = null;
 	
 	static String dbURL = "jdbc:mysql://localhost:3306/vaalikone";
 	static Connection dbConn;
@@ -57,7 +57,6 @@ public class model {
 				String i1 = rs.getString("QUESTION");
 				QUESTION.add(i1);
 				QUESTION_ID.add(i2);
-				System.out.print(QUESTION);
 			};
 			return QUESTION;
 		} catch (Exception ex1) {
