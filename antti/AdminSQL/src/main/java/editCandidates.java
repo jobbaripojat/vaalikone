@@ -15,10 +15,10 @@ import java.util.*;
 
 @SuppressWarnings("serial")
 @WebServlet(
-    name = "addCandidates",
-    urlPatterns = {"/addcandidates"})
+    name = "editCandidates",
+    urlPatterns = {"/editcandidates"})
 
-public class addCandidates  extends HttpServlet {
+public class editCandidates  extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 		      throws IOException {
@@ -115,35 +115,36 @@ public class addCandidates  extends HttpServlet {
 	         out.println("<html>");
 	         out.println("<body>");
 	         out.println("<ul>");
-	         out.println("<form action=/addcandidates method=post");
+	         out.println("<form action=/editcandidates method=post");
 	         
 	         for (int i = 0; i<candidate_id.size(); i++) {
 	        	 out.println("<br>");
-	         	 out.println("<li>" + "Kandidaatin id: " + candidate_id.get(i) + ",  " + first_name.get(i) + " " + last_name.get(i) + " " + age.get(i) + ", Puolue : " + party.get(i) +  ", Vaalipiiri: " + municipality.get(i) + "</li>");
+	         	 out.println("<li>" + "Kandidaatin id: " + candidate_id.get(i) + ",   " + first_name.get(i) + " " + last_name.get(i) + " " + age.get(i) + ", Puolue : " + party.get(i) +  ", Vaalipiiri: " + municipality.get(i) + "</li>");
 	             out.println("<br>");
 	             }
 	         
 	         out.println("<br>");
 	         
-	         out.println("<label for=\"fname\">Syötä ID:</label><br>");
+	         out.println("<label for=\"fname\">Syötä muokattavan kandidaatin ID:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_id\" name=\"lisättävä_id\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä sukunimi:</label><br>");
+	         
+	         out.println("<label for=\"fname\">Syötä uusi sukunimi:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_sukunimi\" name=\"lisättävä_sukunimi\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä etunimi:</label><br>");
+	         out.println("<label for=\"fname\">Syötä uusi etunimi:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_etunimi\" name=\"lisättävä_etunimi\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä kunta:</label><br>");
+	         out.println("<label for=\"fname\">Syötä uusi kunta:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_kunta\" name=\"lisättävä_kunta\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä puolue:</label><br>");
+	         out.println("<label for=\"fname\">Syötä uusi puolue:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_puolue\" name=\"lisättävä_puolue\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä ikä:</label><br>");
+	         out.println("<label for=\"fname\">Syötä uusi ikä:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_ikä\" name=\"lisättävä_ikä\"><br>");
 	         
-	         out.println("<label for=\"fname\">Syötä kuvaus:</label><br>");
+	         out.println("<label for=\"fname\">Syötä uusi kuvaus:</label><br>");
 	         out.println("<input type=\"text\" id=\"lisättävä_desc\" name=\"lisättävä_desc\"><br>");
 	         
 	         out.println("<input type=\"submit\" value=\"Submit\">");
@@ -239,23 +240,35 @@ public class addCandidates  extends HttpServlet {
 //		        out.println("</body></html>");
 	     		
 	     		try {
-	     		PreparedStatement st = con.prepareStatement("INSERT INTO candidates VALUES(?, ?, ?, ?, ?, ?, ?)");
-	     		st.setInt(1, Integer.valueOf(request.getParameter("lisättävä_id")));
-	     		st.setString(2, request.getParameter("lisättävä_sukunimi"));
-	     		st.setString(3, request.getParameter("lisättävä_etunimi"));
-	     		st.setString(4, request.getParameter("lisättävä_puolue"));
-	     		st.setString(5, request.getParameter("lisättävä_kunta"));    		
-	     		st.setInt(6, Integer.valueOf(request.getParameter("lisättävä_ikä")));
-	     		st.setString(7, request.getParameter("lisättävä_desc"));  
-     		
-	     		st.executeUpdate();	     		          
+//	     		PreparedStatement st = con.prepareStatement("update candidates set LAST_NAME=?,FIRST_NAME=?,PARTY=?,MUNICIPALITY=?,AGE=?,DESCRIPTION=? where CANDIDATE_ID=?");
+//	     		st.setString(1, request.getParameter("lisättävä_sukunimi"));
+//	     		st.setString(2, request.getParameter("lisättävä_etunimi"));
+//	     		st.setString(3, request.getParameter("lisättävä_puolue"));
+//	     		st.setString(4, request.getParameter("lisättävä_kunta"));    		
+//	     		st.setInt(5, Integer.valueOf(request.getParameter("lisättävä_ikä")));
+//	     		st.setString(6, request.getParameter("lisättävä_desc"));  
+//	     		st.setInt(7, Integer.valueOf(request.getParameter("lisättävä_id")));
+//     		
+//	     		st.executeUpdate();
+	     			
+	     	     PreparedStatement statement = con.prepareStatement("UPDATE candidates SET LAST_NAME = ?, FIRST_NAME = ?, PARTY = ?, MUNICIPALITY = ?, AGE = ?, DESCRIPTION = ? WHERE CANDIDATE_ID = ?;");
+	     	     statement.setString(1, request.getParameter("lisättävä_sukunimi"));
+	     	     statement.setString(2, request.getParameter("lisättävä_etunimi"));
+	     	     statement.setString(3, request.getParameter("lisättävä_puolue"));
+	     	     statement.setString(4, request.getParameter("lisättävä_kunta"));
+	     	     statement.setFloat(5, Float.valueOf(request.getParameter("lisättävä_ikä")));
+	     	     statement.setString(6, request.getParameter("lisättävä_desc"));
+	     	     statement.setFloat(7, Float.valueOf(request.getParameter("lisättävä_id")));
+
+	     	     statement.executeUpdate();
+	     	        
 	   	         
 //	   	         st.executeUpdate("INSERT INTO candidates VALUES = '"+ 1 +  "'" + "'" + 2  + "'" + "'" + 3 +  "'" + "'" + 4 +  "'" + "'" + 5 +  "'" + "'" + 6 +"'");
-	   	         System.out.println("Kandidaatti lisätty");
+	   	         System.out.println("Kandidaatin tiedot päivitetty");
 	   	        
 	   	         
 	   	         }catch (Exception ex1) {
-	   		         System.out.println("*** Failed to add candidate ***");
+	   		         System.out.println("*** Failed to edit candidate ***");
 	   		     }
 	     		
 	}

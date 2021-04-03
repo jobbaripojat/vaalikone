@@ -114,7 +114,8 @@ public class removeCandidates  extends HttpServlet {
 	         out.println("<form action=/removecandidates method=GET");
 	         
 	         for (int i = 0; i<candidate_id.size(); i++) {
-	         	out.println("<li>" + "Kandidaatin id: " + candidate_id.get(i) + ",   " + first_name.get(i) + " " + last_name.get(i) + " " + age.get(i) + ", Puolue : " + party.get(i) +  ", Vaalipiiri: " + municipality.get(i) + "</li>");
+	        	 out.println("<br>");
+	         	 out.println("<li>" + "Kandidaatin id: " + candidate_id.get(i) + ",   " + first_name.get(i) + " " + last_name.get(i) + " " + age.get(i) + ", Puolue : " + party.get(i) +  ", Vaalipiiri: " + municipality.get(i) + "</li>");
 	             out.println("<br>");
 	             }
 	         
