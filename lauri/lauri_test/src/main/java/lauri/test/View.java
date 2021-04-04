@@ -13,6 +13,7 @@ public class View extends HttpServlet {
 
     private Controller controller;
 
+    
 	/**  
 	* register controller and create the view and model.
 	* test the database connection through Initialize()
@@ -28,10 +29,11 @@ public class View extends HttpServlet {
 		controller.Initialize();
     }
 
+    
 	/**  
 	* write the string to the response(.html file) given
 	*/
-    public void WriteToDocument(String writable, HttpServletResponse response) {
+    public void WriteToDocument(HttpServletResponse response, String writable) {
 		try {
 			response.getWriter().println(writable);
 		} catch (IOException e) {
@@ -39,10 +41,11 @@ public class View extends HttpServlet {
 		}
     }
     
+    
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		RegisterController();
-		Controller.response = response;
+		controller.response = response;
 		response.setContentType("text/html;charset=UTF-8");
 		
 		int candidateID = 0;
@@ -50,7 +53,12 @@ public class View extends HttpServlet {
 		
 		try {
 			candidateID = Integer.parseInt(request.getParameter("candidateID"));
-			questionID = Integer.parseInt(request.getParameter("questionID"));
+			String n = request.getParameter("questionID");
+			if (n.isEmpty()) {
+				questionID = 0;
+			} else {
+				questionID = Integer.parseInt(n);
+			}
 		} catch (Exception e) {
 			response.getWriter().println("There was an error.");
 			System.exit(0);

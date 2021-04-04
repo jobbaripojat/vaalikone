@@ -9,8 +9,8 @@ public class Controller {
 	
     private Model model;
     private View view;
-	
-	static HttpServletResponse response;	
+    
+    HttpServletResponse response;	
 	
     DecimalFormat df = new DecimalFormat("###.##");
     
@@ -23,25 +23,28 @@ public class Controller {
     	model.TestConnection();
     }
 
+    
 	/**  
 	* used to fetch a candidate's answer to a specific question from the database
 	* then we print out the results on to the .html file as a table
 	*/
     protected void GetFromDatabase(int candidateID, int questionID) {
     	if (questionID == 0) {
-    		ArrayList<Integer> answer = model.GetAnswersFor(candidateID);
-    		
+    		ArrayList<Integer> answer = model.GetAnswersFor(candidateID);    		
     		float percentageMatch = model.CompareAnswers(candidateID);
-    		
-        	view.WriteToDocument("<table style='text-align:center'><tr><th>Candidate</th><th>User</th></tr>", response);
+        	view.WriteToDocument(response, "<table style='text-align:center'><tr><th>Candidate</th><th>User</th></tr>");       
+        	
     		for (int i = 0; i < answer.size(); i++) {
-            	view.WriteToDocument("<tr><td>" + Integer.toString(answer.get(i)) + "</td>", response);
-            	view.WriteToDocument("<td>" + Integer.toString(model.vastaukset.get(i)) + "</td></tr>", response);
+            	view.WriteToDocument(response, "<tr><td>" + Integer.toString(answer.get(i)) + "</td>");            	
+            	view.WriteToDocument(response, "<td>" + Integer.toString(model.vastaukset.get(i)) + "</td></tr>");
     		}
-    		view.WriteToDocument("<br><tr><td>Match: " + df.format(percentageMatch) + "%</td></tr></table>", response);
+    		view.WriteToDocument(response,
+    				"<tr><td>Match: " + df.format(percentageMatch) + "%</td></tr>" +
+    				"<tr><td>Top candidate id: " + model.GetTopCandidate() + "</td></tr>" +
+    				"</table>");
     	} else {
         	int answer = model.GetAnswersFor(candidateID, questionID);
-        	view.WriteToDocument(Integer.toString(answer), response);
+        	view.WriteToDocument(response, Integer.toString(answer));
     	}
     }
 }
