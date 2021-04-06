@@ -54,7 +54,7 @@ public class QuestionController extends HttpServlet {
 		}
 		addToFile += "<input type='submit' value='send'>";
 		addToFile += "</form>";
-		request.setAttribute("data", addToFile);
+		request.setAttribute("questions", addToFile);
 		rd.forward(request, response);
 		
 		
