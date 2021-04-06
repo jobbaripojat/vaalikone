@@ -9,11 +9,12 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletResponse;
 
 public class QuestionModel {
+	
 	DatabaseConnection db;
 	HttpServletResponse response;
 
-	int candidateCount = 20;
-	
+	int candidateCount = 0;
+
 	ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>(Arrays.asList(3,1,2,2,4,2,4,2,2,5,1,4,3,3,3,5,4,4,1));
 
 

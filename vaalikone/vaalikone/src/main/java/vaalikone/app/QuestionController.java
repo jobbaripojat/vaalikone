@@ -23,6 +23,7 @@ public class QuestionController extends HttpServlet {
 	protected void Initialize() {
 		db.TestConnection();
 		model.db = this.db;
+		model.candidateCount = db.CountCandidates();
 	}
 
 	
@@ -51,7 +52,7 @@ public class QuestionController extends HttpServlet {
 			addToFile += "<br>";
 			addToFile += "<br>";
 		}
-		addToFile += "<input type=\"submit\" value=\"send\">";
+		addToFile += "<input type='submit' value='send'>";
 		addToFile += "</form>";
 		request.setAttribute("data", addToFile);
 		rd.forward(request, response);

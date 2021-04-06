@@ -44,4 +44,17 @@ public class DatabaseConnection {
 		}
 		return result;
 	}
+	
+	
+	public int CountCandidates() {
+		int count = 0;
+		ResultSet rs = ExecuteSQL("SELECT CANDIDATE_ID FROM CANDIDATES");
+		try {
+			while(rs.next()) { count++; }
+		} catch (SQLException e) {
+			System.out.println("lol fail");
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
