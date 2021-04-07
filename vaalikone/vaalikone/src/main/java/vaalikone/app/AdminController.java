@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.*;
 import java.util.*;
 
+@SuppressWarnings("serial")
 @WebServlet(
 	name = "AdminController",
 	urlPatterns = { "/admin"}
@@ -19,6 +19,8 @@ public class AdminController extends HttpServlet {
 	
 	AdminModel model = new AdminModel();
 	DatabaseConnection db = new DatabaseConnection();
+	
+	static String formAction = "/add";
 
 	public AdminController() {
 		
@@ -40,21 +42,30 @@ public class AdminController extends HttpServlet {
 		PrintAllCandidates(request, response);
 	}
 	
+	/**
+	 * Prints one candidate and creates the HTML required. 
+	 * Buttons reference to Delete.java and Update.java.
+	 * 
+	 */
+	
 	protected String GenerateCandidateCell(int candidateID) {
 		ArrayList<String> CANDIDATE = model.LIST_OF_CANDIDATES.get(candidateID-1);
 		
 		String addToFile = "<tr>";
 		
-		addToFile += "<th scope='row'>" + candidateID + "</th>";
+		addToFile += "<th scope='row'>" + CANDIDATE.get(0) + "</th>";
 		addToFile += "<td>" + CANDIDATE.get(2) + "</td>";
 		addToFile += "<td>" + CANDIDATE.get(1) + "</td>";
-		addToFile += "<td><button type='button' class='btn btn-primary'>Edit</button></td>";
-		addToFile += "<td><button type='button' class='btn btn-danger'>Delete</button></td>";
+		addToFile += "<td><a href='/fetch?candidate_id=" + CANDIDATE.get(0) + "' class='btn btn-primary' role='button'>Edit</button></td>";
+		addToFile += "<td><a href='/delete?candidate_id=" + CANDIDATE.get(0) + "' class='btn btn-danger' role='button'>Delete</button></td>";
 		addToFile += "</tr>";
 		
 		return addToFile;
 	}
-	
+	/**
+	 * Prints all candidates to a list and prints them to admin.jsp using the GenerateCandidateCell as help.
+	 * 
+	 */
 	protected void PrintAllCandidates(HttpServletRequest request, HttpServletResponse response) {
 		model.GetCandidates();
 		
@@ -68,7 +79,10 @@ public class AdminController extends HttpServlet {
 		for (int i = 1; i < model.candidateCount; i++) {
 			addToFile += GenerateCandidateCell(i);
 		}
-
+		
+		request.setAttribute("form_action", formAction);
+		formAction = "/add";
+		
 		request.setAttribute("candidates", addToFile);
 		try {
 			rd.forward(request, response);

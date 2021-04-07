@@ -32,27 +32,41 @@ public class DatabaseConnection {
 	/**  
 	* basically executeQuery(), but with error handling so no need to do that elsewhere
 	* shouldn't be done like this, but we're doing it anyway B)
+	* type = 
+	* 1 = executeQuery => outputs a resultset
+	* 2 = executeUpdate => insert, update, delete
 	*/
-	public ResultSet ExecuteSQL(String sqlStatement) {
+	public ResultSet ExecuteSQL(String sqlStatement, int type) {
 		ResultSet result = null;
 		try {
 			PreparedStatement statement = dbConn.prepareStatement(sqlStatement);
-			result = statement.executeQuery();
-		} catch (SQLException e){
+			switch (type) {
+			case 1:
+				result = statement.executeQuery();
+				break;
+			case 2:
+				statement.executeUpdate();
+				break;
+			default:
+				System.out.println("1 for executeQuery(), 2 for executeUpdate()");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("There was an error making the query to the database");
 		}
 		return result;
 	}
 	
-	
+	/**
+	 * Counts the amount of candidates from the database.
+	 * See also ExecuteSQL method in DatabaseConnection.java
+	 */
 	public int CountCandidates() {
 		int count = 0;
-		ResultSet rs = ExecuteSQL("SELECT CANDIDATE_ID FROM CANDIDATES");
+		ResultSet rs = ExecuteSQL("SELECT CANDIDATE_ID FROM CANDIDATES", 1);
 		try {
 			while(rs.next()) { count++; }
 		} catch (SQLException e) {
-			System.out.println("lol fail");
 			e.printStackTrace();
 		}
 		return count;

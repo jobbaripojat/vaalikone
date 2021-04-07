@@ -23,8 +23,8 @@ public class QuestionModel {
 	* This way they can be used later on in the program.
 	*/
 	protected ArrayList<String> GetQuestion() {
-		String sql = "Select * From questions";
-		ResultSet rs = db.ExecuteSQL(sql);
+		String sql = "SELECT * FROM questions";
+		ResultSet rs = db.ExecuteSQL(sql, 1);
 		ArrayList<String> QUESTION = new ArrayList<String>();
 
 		try {
@@ -46,7 +46,7 @@ public class QuestionModel {
 	protected int GetAnswersFor(int candidateID, int questionID) {
 		String sql = "SELECT ANSWER FROM answers WHERE CANDIDATE_ID = " + candidateID + " AND QUESTION_ID = " + questionID;
 		try {
-			ResultSet answer = db.ExecuteSQL(sql);
+			ResultSet answer = db.ExecuteSQL(sql, 1);
 			answer.next();
 			return answer.getInt(1);
 		} catch (SQLException e) {
@@ -64,7 +64,7 @@ public class QuestionModel {
 		ArrayList<Integer> CANDIDATE_ANSWERS = new ArrayList<Integer>();
 		
 		try {
-			ResultSet answer = db.ExecuteSQL(sql);
+			ResultSet answer = db.ExecuteSQL(sql, 1);
 			while (answer.next()) {
 				CANDIDATE_ANSWERS.add(answer.getInt(1));
 			}

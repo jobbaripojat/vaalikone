@@ -15,49 +15,115 @@
 </head>
 
 <body>
-    <div class="flex-container">
+    <div class="flex-container mt-3">
         <div class="row mx-auto">
-            <div class="col-4 float-left">
+            <div class="col float-left">
                 <table class="table table-striped">
                     <tbody>${candidates}</tbody>
                 </table>
             </div>
-            <div class="col-2"></div>
-            <div class="col-6 float-right">
-                <form>
-                    <div class="col">
-                        <label for="identification" class="form-label">ID</label>
-                        <input type="number" class="form-control" name="candidate_id" value="${candidate_id}">
+            <div class="col"></div>
+            <div class="col-6 float-right mt-sm-5">
+                <form method="GET" action="${form_action}">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="first">First Name</label>
+                            <input type="text" class="form-control" name="first_name" value="${first_name}" placeholder="First name" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="last">Last Name</label>
+                            <input type="text" class="form-control" name="last_name" value="${last_name}" placeholder="Last name" required>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="age">Age</label>
+                            <input type="text" class="form-control" name="age" value="${age}" placeholder="Age" required>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
-                    <div class="col">
-                        <label for="first" class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="first_name" value="${first_name}">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="municipality">Municipality</label>
+                            <input type="text" class="form-control" name="municipality" value="${municipality}" placeholder="Municipality" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="party">Party</label>
+                            <input type="text" class="form-control" name="party" value="${party}" placeholder="Party" required>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="identification">ID</label>
+                            <input type="text" class="form-control" name="candidate_id" value="${candidate_id}" placeholder="ID" required>
+                            ${exists}
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
-                    <div class="col">
-                        <label for="last" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="last_name" value="${last_name}">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-11">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" name="description" rows="4" placeholder="Short description of candidate" required>${description}</textarea>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
-                    <div class="col">
-                        <label for="party" class="form-label">Party</label>
-                        <input type="text" class="form-control" name="party" value="${party}">
+                    <div class="form-row">
+                        <div class="form-group col-md-11">
+                            <br>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a type="reset" class="float-right btn btn-secondary" href="/admin" Reset>Clear</a>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
-                    <div class="col">
-                        <label for="municipality" class="form-label">Municipality</label>
-                        <input type="text" class="form-control" name="municipality" value="${municipality}">
+
+
+                    <!-- <div class="form-group row">
+                        <label for="identification" class="col-sm-2 col-form-label">ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="candidate_id" value="${candidate_id}" placeholder="Candidate ID">
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="age" class="form-label">Age</label>
-                        <input type="text" class="form-control" name="age" value="${age}">
+                    <div class="form-group row">
+                        <label for="first" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="first_name" value="${first_name}" placeholder="First name">
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="description" class="form-label">Description </label>
-                        <textarea class="form-control" name="description" rows="5" value="${description}"></textarea>
+                    <div class="form-group row">
+                        <label for="last" class="col-sm-2 col-form-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="last_name" value="${last_name}" placeholder="Last name">
+                        </div>
                     </div>
-                    <div class="col form-check">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="form-group row">
+                        <label for="party" class="col-sm-2 col-form-label">Party</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="party" value="${party}" placeholder="Party">
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="municipality" class="col-sm-2 col-form-label">Municipality</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="municipality" value="${municipality}" placeholder="Municipality">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="age" class="col-sm-2 col-form-label">Age</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="age" value="${age}" placeholder="Age">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Description </label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="description" rows="4" placeholder="Description">${description}</textarea>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a type="reset" class="float-right btn btn-danger" href="/admin" Reset>Clear</a>
+                        </div>
+                    </div> -->
+
+
                 </form>
             </div>
+            <div class="col-1"></div>
         </div>
     </div>
 </body>
