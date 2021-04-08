@@ -17,7 +17,7 @@
 <body>
     <div class="flex-container mt-3">
         <div class="row mx-auto">
-            <div class="col float-left">
+            <div class="col-sm float-left">
                 <table class="table table-striped">
                     <tbody>${candidates}</tbody>
                 </table>
@@ -34,11 +34,10 @@
                             <label for="last">Last Name</label>
                             <input type="text" class="form-control" name="last_name" value="${last_name}" placeholder="Last name" required>
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             <label for="age">Age</label>
                             <input type="text" class="form-control" name="age" value="${age}" placeholder="Age" required>
                         </div>
-                        <div class="col-md-1"></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-5">
@@ -49,78 +48,26 @@
                             <label for="party">Party</label>
                             <input type="text" class="form-control" name="party" value="${party}" placeholder="Party" required>
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             <label for="identification">ID</label>
                             <input type="text" class="form-control" name="candidate_id" value="${candidate_id}" placeholder="ID" required>
                             ${exists}
                         </div>
-                        <div class="col-md-1"></div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-11">
+                        <div class="form-group col-md-12">
                             <label for="description">Description</label>
                             <textarea class="form-control" name="description" rows="4" placeholder="Short description of candidate" required>${description}</textarea>
                         </div>
-                        <div class="col-md-1"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-11">
+                        <div class="form-group col-md-12">
                             <br>
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <a type="reset" class="float-right btn btn-secondary" href="/admin" Reset>Clear</a>
                         </div>
-                        <div class="col-md-1"></div>
                     </div>
-
-
-                    <!-- <div class="form-group row">
-                        <label for="identification" class="col-sm-2 col-form-label">ID</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="candidate_id" value="${candidate_id}" placeholder="Candidate ID">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="first" class="col-sm-2 col-form-label">First Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="first_name" value="${first_name}" placeholder="First name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="last" class="col-sm-2 col-form-label">Last Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="last_name" value="${last_name}" placeholder="Last name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="party" class="col-sm-2 col-form-label">Party</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="party" value="${party}" placeholder="Party">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="municipality" class="col-sm-2 col-form-label">Municipality</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="municipality" value="${municipality}" placeholder="Municipality">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="age" class="col-sm-2 col-form-label">Age</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="age" value="${age}" placeholder="Age">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="description" class="col-sm-2 col-form-label">Description </label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" name="description" rows="4" placeholder="Description">${description}</textarea>
-                            <br>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <a type="reset" class="float-right btn btn-danger" href="/admin" Reset>Clear</a>
-                        </div>
-                    </div> -->
-
-
                 </form>
             </div>
             <div class="col-1"></div>

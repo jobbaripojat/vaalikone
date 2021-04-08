@@ -3,7 +3,6 @@ package vaalikone.app;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +14,7 @@ public class QuestionModel {
 
 	int candidateCount = 0;
 
-	ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>(
-			Arrays.asList(3, 1, 2, 2, 4, 2, 4, 2, 2, 5, 1, 4, 3, 3, 3, 5, 4, 4, 1));
+	ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>();
 
 	/**
 	 * Print questions from the database and put them in an ArrayList for further
@@ -86,6 +84,7 @@ public class QuestionModel {
 	protected int GetTopCandidate() {
 		ArrayList<Float> CANDIDATE_MATCHES = new ArrayList<Float>();
 		try {
+			candidateCount = db.CountCandidates();
 			for (int i = 1; i < candidateCount; i++) {
 				float match = CompareAnswers(i);
 				CANDIDATE_MATCHES.add(match);

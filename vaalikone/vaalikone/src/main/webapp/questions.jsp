@@ -22,7 +22,14 @@
         
         <div class="row">
             <div class="col-2"></div>
-            <div class="col-8">${questions}</div>
+            <div class="col-8">
+                <form action ='/results' method='GET'>
+                    <br>
+                    ${questions}
+                    <br>
+                <input type='submit' value='send'>
+                </form>
+            </div>
             <div class="col-2"></div>
         </div>
     </div>

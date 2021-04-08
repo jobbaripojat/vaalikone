@@ -46,26 +46,18 @@ public class QuestionController extends HttpServlet {
 			ArrayList<String> QUESTIONS = model.GetQuestions();
 
 			String addToFile = "";
-
-			addToFile += "<form action ='/submit' method='GET'>";
-
-			int index = 1;
+			int idx = 1;
 			for (int i = 0; i < 19; i++) {
-				addToFile += String.valueOf(index++) + ". ";
+				addToFile += String.valueOf(idx++) + ". ";
 				addToFile += QUESTIONS.get(i);
 				addToFile += "<br>";
-				addToFile += "<input type = 'radio' name = 'Q" + i + "rad' value = '1'> Täysin eri mieltä ";
-				addToFile += "<input type = 'radio' name = 'Q" + i + "rad' value = '2'> Eri mieltä ";
-				addToFile += "<input type = 'radio' name = 'Q" + i + "rad' value = '3'> Neutraali ";
-				addToFile += "<input type = 'radio' name = 'Q" + i + "rad' value = '4'> Samaa mieltä ";
-				addToFile += "<input type = 'radio' name = 'Q" + i + "rad' value = '5'> Täysin samaa mieltä";
-				addToFile += "<br>";
+				addToFile += "<input type='radio' name='Q" + i + "' value='1'> Täysin eri mieltä ";
+				addToFile += "<input type='radio' name='Q" + i + "' value='2'> Eri mieltä ";
+				addToFile += "<input type='radio' name='Q" + i + "' value='3'> Neutraali ";
+				addToFile += "<input type='radio' name='Q" + i + "' value='4'> Samaa mieltä ";
+				addToFile += "<input type='radio' name='Q" + i + "' value='5'> Täysin samaa mieltä";
 				addToFile += "<br>";
 			}
-
-			addToFile += "<input type='submit' value='send'>";
-			addToFile += "</form>";
-
 			request.setAttribute("questions", addToFile);
 			RequestDispatcher rd = request.getRequestDispatcher("questions.jsp");
 			rd.forward(request, response);
@@ -74,12 +66,12 @@ public class QuestionController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		/*
-		 * ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>(); for (int i = 0; i
-		 * < USER_ANSWERS.size(); i++) { String value =
-		 * request.getParameter("Q"+i+"rad"); USER_ANSWERS.add(Integer.parseInt(value));
-		 * } model.USER_ANSWERS = USER_ANSWERS;
-		 */
+//		ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>(); 
+//		for (int i = 0; i < USER_ANSWERS.size(); i++) { 
+//			String value = request.getParameter("Q"+i); 
+//			USER_ANSWERS.add(Integer.parseInt(value));
+//		} 
+//		model.USER_ANSWERS = USER_ANSWERS;
 
 	}
 }
