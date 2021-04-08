@@ -1,5 +1,6 @@
 package vaalikone.app;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,22 +8,24 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 public class AdminModel {
-	
+
 	DatabaseConnection db;
-	
+
 	int candidateCount = 0;
-	
+
 	ArrayList<ArrayList<String>> LIST_OF_CANDIDATES = new ArrayList<ArrayList<String>>();
+
 	/**
-	 * Fetches all the candidates from the database and their info.
-	 * Prints an error if it is unsuccessful.
-	 * See also ExecuteQuery method in DataBaseConnection.java  
+	 * Fetches all the candidates from the database and puts them an in arraylist of
+	 * arraylists.
 	 */
 	protected void GetCandidates() {
-		ArrayList<ArrayList<String>> LIST_OF_CANDIDATES = new ArrayList<ArrayList<String>>();
-		ResultSet rs = db.ExecuteSQL("SELECT * FROM candidates", 1);
 		try {
-			while(rs.next()) {
+			ArrayList<ArrayList<String>> LIST_OF_CANDIDATES = new ArrayList<ArrayList<String>>();
+			PreparedStatement statement = db.dbConn.prepareStatement("SELECT * FROM candidates");
+			ResultSet rs = db.ExecuteSQL(statement, 1);
+			rs.beforeFirst();
+			while (rs.next()) {
 				ArrayList<String> CANDIDATE = new ArrayList<String>();
 				CANDIDATE.add(Integer.toString(rs.getInt("CANDIDATE_ID")));
 				CANDIDATE.add(rs.getString("FIRST_NAME"));
@@ -35,69 +38,83 @@ public class AdminModel {
 			}
 			this.LIST_OF_CANDIDATES = LIST_OF_CANDIDATES;
 		} catch (SQLException e) {
+			System.out.println("There was an error fetching the candidates from the database");
 			e.printStackTrace();
-			System.out.println("Error fetching candidates from the database!");
 		}
 	}
-	
+
+	/**
+	 * Attempt to insert information from the form into the database. We make sure
+	 * the id doesn't already exist.
+	 */
 	protected String InsertCandidate(HttpServletRequest request) {
 		try {
-			String sql = "INSERT INTO candidates (CANDIDATE_ID, LAST_NAME, FIRST_NAME, PARTY, MUNICIPALITY, AGE, DESCRIPTION) VALUES('" + request.getParameter("candidate_id") + "', '"
-					+ request.getParameter("first_name") + "', '" + request.getParameter("last_name") + "', '"
-					+ request.getParameter("party") + "', '" + request.getParameter("municipality") + "', '"
-					+ request.getParameter("age") + "', '" + request.getParameter("description") + "')";
-			
+			PreparedStatement statement = db.dbConn.prepareStatement(
+					"INSERT INTO candidates (CANDIDATE_ID, LAST_NAME, FIRST_NAME, PARTY, MUNICIPALITY, AGE, DESCRIPTION) VALUES(?,?,?,?,?,?,?)");
+			statement.setString(1, request.getParameter("candidate_id"));
+			statement.setString(2, request.getParameter("last_name"));
+			statement.setString(3, request.getParameter("first_name"));
+			statement.setString(4, request.getParameter("party"));
+			statement.setString(5, request.getParameter("municipality"));
+			statement.setString(6, request.getParameter("age"));
+			statement.setString(7, request.getParameter("description"));
+
 			boolean doesExist = IfExists(request);
 			if (doesExist) {
 				return "Candidate already exists!";
 			}
-			db.ExecuteSQL(sql, 2);
-			return "Candidate added to the database!";
+			db.ExecuteSQL(statement, 2);
+			return "Candidate added";
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "Unable to add the candidate to the database!";
 		}
 	}
 
+	/**
+	 * Update candidate with the information in the form based on the id given.
+	 */
 	protected String UpdateCandidate(HttpServletRequest request) {
 		try {
-			String sql = "UPDATE candidates SET"
-					+ " LAST_NAME = '" + request.getParameter("last_name")
-					+ "', FIRST_NAME = '" + request.getParameter("first_name")
-					+ "', PARTY = '" + request.getParameter("party")
-					+ "', MUNICIPALITY = '" + request.getParameter("municipality")
-					+ "', AGE = '" + request.getParameter("age")
-					+ "', DESCRIPTION = '" + request.getParameter("description")
-					+ "' WHERE CANDIDATE_ID = " + request.getParameter("candidate_id") + ";";
-			System.out.println(sql);
-			db.ExecuteSQL(sql, 2);
-			return "Candidate added to the database!";
+			PreparedStatement statement = db.dbConn.prepareStatement(
+					"UPDATE candidates SET LAST_NAME = ?, FIRST_NAME = ?, PARTY = ?, MUNICIPALITY = ?, AGE = ?, DESCRIPTION = ? WHERE CANDIDATE_ID = ?");
+			statement.setString(1, request.getParameter("last_name"));
+			statement.setString(2, request.getParameter("first_name"));
+			statement.setString(3, request.getParameter("party"));
+			statement.setString(4, request.getParameter("municipality"));
+			statement.setString(5, request.getParameter("age"));
+			statement.setString(6, request.getParameter("description"));
+			statement.setString(7, request.getParameter("candidate_id"));
+			System.out.println(statement);
+			db.ExecuteSQL(statement, 2);
+			return "Candidate updated";
 		} catch (Exception e) {
-			// TODO: handle exception
-			return "Unable to add the candidate to the database!";
+			return "Unable to update the candidate!";
 		}
 	}
-	
-	
+
+	/**
+	 * Delete candidate with the given id from the database.
+	 */
 	protected String DeleteCandidate(String candidateID) {
 		try {
-			String sql = "DELETE FROM candidates WHERE CANDIDATE_ID = " + candidateID;
-			db.ExecuteSQL(sql, 2);
-			return "Candidate removed from the database!";
+			PreparedStatement statement = db.dbConn.prepareStatement("DELETE FROM candidates WHERE CANDIDATE_ID = ?");
+			statement.setString(1, candidateID);
+			db.ExecuteSQL(statement, 2);
+			return "Candidate removed";
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "Unable to remove candidate from the database!";
 		}
 	}
+
 	/**
-	 * Choose all candidates from the database where candidate_id is the same as the given parameter.
-	 * This way you cannot have two candidates with the same ID.
-	 * @throws SQLException 
+	 * Choose all candidates from the database where candidate_id is the same as the
+	 * given id in the form. Used to check if a candidate with the same id already
+	 * exists
 	 */
-	
-	protected boolean IfExists(HttpServletRequest request) throws SQLException {
-		String sql = "SELECT * FROM candidates WHERE CANDIDATE_ID = '" + request.getParameter("candidate_id") + "'";
-		ResultSet rs = db.ExecuteSQL(sql, 1);
+	protected boolean IfExists(HttpServletRequest request) throws Exception {
+		PreparedStatement statement = db.dbConn.prepareStatement("SELECT * FROM candidates WHERE CANDIDATE_ID = ?");
+		statement.setString(1, request.getParameter("candidate_id"));
+		ResultSet rs = db.ExecuteSQL(statement, 1);
 		rs.beforeFirst();
 		if (rs.next()) {
 			System.out.println("Already exists!");
@@ -106,4 +123,3 @@ public class AdminModel {
 		return false;
 	}
 }
-
