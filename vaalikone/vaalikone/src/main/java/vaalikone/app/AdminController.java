@@ -56,7 +56,7 @@ public class AdminController extends HttpServlet {
 	 * Delete.java and Fetch.java.
 	 */
 	protected String GenerateCandidateCell(int idx) {
-		ArrayList<String> CANDIDATE = model.LIST_OF_CANDIDATES.get(idx - 1);
+		ArrayList<String> CANDIDATE = model.LIST_OF_CANDIDATES.get(idx);
 
 		String addToFile = "<tr>";
 
@@ -81,7 +81,7 @@ public class AdminController extends HttpServlet {
 			model.GetCandidates();
 			String addToFile = "";
 
-			for (int i = 1; i < model.candidateCount; i++) {
+			for (int i = 0; i < model.candidateCount; i++) {
 				addToFile += GenerateCandidateCell(i);
 			}
 

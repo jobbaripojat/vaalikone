@@ -23,11 +23,13 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-                <form action ='/results' method='GET'>
+                <form action ='/submit' method='GET'>
+                    <input type='hidden' name='x' value='${x}'>
+                    <input type='hidden' name='candidate_id' value='${candidate_id}'>
                     <br>
                     ${questions}
                     <br>
-                <input type='submit' value='send'>
+                    <input type='submit' value='send'>
                 </form>
             </div>
             <div class="col-2"></div>

@@ -13,6 +13,7 @@ public class QuestionModel {
 	HttpServletResponse response;
 
 	int candidateCount = 0;
+	int questionCount = 0;
 
 	ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>();
 
@@ -24,7 +25,6 @@ public class QuestionModel {
 		PreparedStatement statement = db.dbConn.prepareStatement("SELECT * FROM questions");
 		ResultSet rs = db.ExecuteSQL(statement, 1);
 		ArrayList<String> QUESTION = new ArrayList<String>();
-		rs.beforeFirst();
 		while (rs.next()) {
 			String i = rs.getString("QUESTION");
 			QUESTION.add(i);
@@ -41,7 +41,6 @@ public class QuestionModel {
 		statement.setInt(1, candidateID);
 		statement.setInt(2, questionID);
 		ResultSet rs = db.ExecuteSQL(statement, 1);
-		rs.beforeFirst();
 		rs.next();
 		return rs.getInt(1);
 	}
@@ -51,11 +50,9 @@ public class QuestionModel {
 	 */
 	protected ArrayList<Integer> GetAnswersFor(int candidateID) throws Exception {
 		ArrayList<Integer> CANDIDATE_ANSWERS = new ArrayList<Integer>();
-
 		PreparedStatement statement = db.dbConn.prepareStatement("SELECT ANSWER FROM answers WHERE CANDIDATE_ID = ?");
 		statement.setInt(1, candidateID);
 		ResultSet rs = db.ExecuteSQL(statement, 1);
-		rs.beforeFirst();
 		while (rs.next()) {
 			CANDIDATE_ANSWERS.add(rs.getInt(1));
 		}
@@ -85,17 +82,48 @@ public class QuestionModel {
 		ArrayList<Float> CANDIDATE_MATCHES = new ArrayList<Float>();
 		try {
 			candidateCount = db.CountCandidates();
-			for (int i = 1; i < candidateCount; i++) {
-				float match = CompareAnswers(i);
+			PreparedStatement statement = db.dbConn.prepareStatement("SELECT CANDIDATE_ID FROM candidates");
+			ResultSet candidateIDs = db.ExecuteSQL(statement, 1);
+			while(candidateIDs.next()) {
+				System.out.println(candidateIDs.getInt(1));
+				float match = CompareAnswers(candidateIDs.getInt(1));
 				CANDIDATE_MATCHES.add(match);
 			}
+			System.out.println(CANDIDATE_MATCHES);
 			float topPercentage = Collections.max(CANDIDATE_MATCHES);
 			int topMatch = CANDIDATE_MATCHES.indexOf(topPercentage);
-			return topMatch + 1;
+			candidateIDs.beforeFirst();
+			int i = 0;
+			while(i != topMatch) {
+				candidateIDs.next();
+				i++;
+			}
+			candidateIDs.next();
+			return candidateIDs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("There was an error finding the top candidate!");
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	protected String GenerateQuestions() throws Exception {
+		questionCount = db.CountQuestions();
+		ArrayList<String> QUESTIONS = GetQuestions();
+
+		String addToFile = "";
+		int idx = 1;
+		for (int i = 1; i <= questionCount; i++) {
+			addToFile += String.valueOf(idx++) + ". ";
+			addToFile += QUESTIONS.get(i - 1);
+			addToFile += "<br>";
+			addToFile += "<input type='radio' name='Q" + i + "' value='1'> Täysin eri mieltä ";
+			addToFile += "<input type='radio' name='Q" + i + "' value='2'> Eri mieltä ";
+			addToFile += "<input type='radio' name='Q" + i + "' value='3'> Neutraali ";
+			addToFile += "<input type='radio' name='Q" + i + "' value='4'> Samaa mieltä ";
+			addToFile += "<input type='radio' name='Q" + i + "' value='5'> Täysin samaa mieltä";
+			addToFile += "<br>";
+		}
+		return addToFile;
 	}
 }

@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 </head>
 
 <body>
-	<form action="/questions" method="get">
+	<form action="/questions?weComeFromAdmin=0" method="get">
 		<input type="submit" value="show questions">
 	</form>
 	<form action="/admin" method="get">

@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Insert extends HttpServlet {
 
 	DatabaseConnection db = new DatabaseConnection();
-	AdminModel model = new AdminModel();
+	AdminModel aModel = new AdminModel();
+	QuestionModel qModel = new QuestionModel();
 
 	/**
 	 * Add the candidate given in the form to the database. We check if the candidate exists.
@@ -22,17 +23,26 @@ public class Insert extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		db.TestConnection();
-		model.db = this.db;
+		aModel.db = this.db;
+		qModel.db = this.db;
 
-		String x = model.InsertCandidate(request);
+		String x = aModel.InsertCandidate(request);
 		if (x.matches("Candidate already exists!")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/admin");
 			x = "<div class='invalid-feedback d-block'>Candidate already exists!</div>";
 			request.setAttribute("exists", x);
 			rd.forward(request, response);
 		} else {
-			response.sendRedirect("/admin");
+			try {
+				RequestDispatcher rd = request.getRequestDispatcher("/questions.jsp");
+				request.setAttribute("questions", qModel.GenerateQuestions());
+				request.setAttribute("x", "1");
+				request.setAttribute("candidate_id", request.getParameter("candidate_id"));
+				rd.forward(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-
 	}
 }

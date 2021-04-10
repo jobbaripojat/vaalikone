@@ -1,7 +1,6 @@
 package vaalikone.app;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -43,35 +42,15 @@ public class QuestionController extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			ArrayList<String> QUESTIONS = model.GetQuestions();
-
-			String addToFile = "";
-			int idx = 1;
-			for (int i = 0; i < 19; i++) {
-				addToFile += String.valueOf(idx++) + ". ";
-				addToFile += QUESTIONS.get(i);
-				addToFile += "<br>";
-				addToFile += "<input type='radio' name='Q" + i + "' value='1'> Täysin eri mieltä ";
-				addToFile += "<input type='radio' name='Q" + i + "' value='2'> Eri mieltä ";
-				addToFile += "<input type='radio' name='Q" + i + "' value='3'> Neutraali ";
-				addToFile += "<input type='radio' name='Q" + i + "' value='4'> Samaa mieltä ";
-				addToFile += "<input type='radio' name='Q" + i + "' value='5'> Täysin samaa mieltä";
-				addToFile += "<br>";
-			}
+			String addToFile = model.GenerateQuestions();
 			request.setAttribute("questions", addToFile);
+			request.setAttribute("x", "0");
 			RequestDispatcher rd = request.getRequestDispatcher("questions.jsp");
 			rd.forward(request, response);
 		} catch (Exception e) {
 			System.out.println("Unable to fetch questions from the database!");
 			e.printStackTrace();
 		}
-
-//		ArrayList<Integer> USER_ANSWERS = new ArrayList<Integer>(); 
-//		for (int i = 0; i < USER_ANSWERS.size(); i++) { 
-//			String value = request.getParameter("Q"+i); 
-//			USER_ANSWERS.add(Integer.parseInt(value));
-//		} 
-//		model.USER_ANSWERS = USER_ANSWERS;
 
 	}
 }

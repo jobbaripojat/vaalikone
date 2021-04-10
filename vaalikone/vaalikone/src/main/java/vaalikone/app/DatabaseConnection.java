@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DatabaseConnection {
 	static String dbURL = "jdbc:mysql://localhost:3306/vaalikone";
@@ -66,5 +67,36 @@ public class DatabaseConnection {
 			count++;
 		}
 		return count;
+	}
+	
+	/**
+	 * Counts the amount of questions in the database.
+	 */
+	public int CountQuestions(){
+		int count = 0;
+		try {
+			PreparedStatement statement = dbConn.prepareStatement("SELECT QUESTION_ID FROM QUESTIONS");
+			ResultSet rs = ExecuteSQL(statement, 1);
+			rs.beforeFirst();
+			while (rs.next()) {
+				count++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public ArrayList<String> GetMunicipalities() {
+		ArrayList<String> municipalities = new ArrayList<String>();
+		try {
+			PreparedStatement statement = dbConn.prepareStatement("SELECT DISTINCT MUNICIPALITY FROM candidates");
+			ResultSet rs = ExecuteSQL(statement, 2);
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		
+		return municipalities;
 	}
 }
