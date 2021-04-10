@@ -42,10 +42,12 @@ CREATE TABLE ANSWERS (
 );
 CREATE TABLE ADMIN (
    ADMIN_ID INTEGER NOT NULL,
-   ADMIN_USERNAME VARCHAR(30),
-   ADMIN_PASSWORD VARCHAR(30),
+   ADMIN_USERNAME VARCHAR(30) NOT NULL,
+   ADMIN_PASSWORD VARCHAR(300) NOT NULL,
    PRIMARY KEY (ADMIN_ID)
 );
+
+INSERT INTO ADMIN VALUES (1, "admin", "63a9f0ea7bb98050796b649e85481845");
 
 INSERT INTO CANDIDATES VALUES (1, "Ahvenjarvi", "Joel", "Suomen Kristillisdemokraatit (KD)", "Uurainen", 86, "Mieluiten tekisin aivan muuta, mutta valtakunta on korjattava. Tulen toimeen noin kahdeksalla kielella ja olen perehtynyt monen alan asioihin. Kaupunkilais- ja maalaisjarkea. Haluan edistaa Suomea, jossa kenenkaan ei tarvitse karsia puutetta tai voimattomuuden tunnetta omiin asioihinsa vaikuttamisesta.");
 INSERT INTO CANDIDATES VALUES (2, "Aintila", "Henrik Jeremias", "Suomen ruotsalainen kansanpuolue", "Helsinki", 47, "Olen puheeni pitava, monipuolisesti asioita harkitseva, perusteellisesti asiat selvittava, erilaisissa yhteisaissa, yritysmaailmassa ja julkishallinnossa toiminut kolmen lapsen aiti. - Inhimillinen toimeentulo ja aito tasa-arvo kaikille statuksesta riippumatta  - Aito itsemaaraamisoikeus ja puolueettomuus  - Kansan hyvinvointi yritysvoittojen edelle  - Avoimuus kasiteltavista asioista!");
