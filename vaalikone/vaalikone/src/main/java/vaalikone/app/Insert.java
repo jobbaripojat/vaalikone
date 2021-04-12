@@ -18,7 +18,8 @@ public class Insert extends HttpServlet {
 	QuestionModel qModel = new QuestionModel();
 
 	/**
-	 * Add the candidate given in the form to the database. We check if the candidate exists.
+	 * Add the candidate given in the form to the database. We check if the
+	 * candidate exists.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

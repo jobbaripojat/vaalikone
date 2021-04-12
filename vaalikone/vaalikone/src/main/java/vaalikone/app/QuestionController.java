@@ -46,6 +46,7 @@ public class QuestionController extends HttpServlet {
 			request.setAttribute("questions", addToFile);
 			request.setAttribute("x", "0");
 			RequestDispatcher rd = request.getRequestDispatcher("questions.jsp");
+			request.setAttribute("municipality", request.getParameter("municipality"));
 			rd.forward(request, response);
 		} catch (Exception e) {
 			System.out.println("Unable to fetch questions from the database!");

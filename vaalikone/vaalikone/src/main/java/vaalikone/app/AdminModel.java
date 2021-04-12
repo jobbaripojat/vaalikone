@@ -23,7 +23,7 @@ public class AdminModel {
 		try {
 			ArrayList<ArrayList<String>> LIST_OF_CANDIDATES = new ArrayList<ArrayList<String>>();
 			PreparedStatement statement = db.dbConn.prepareStatement("SELECT * FROM candidates");
-			ResultSet rs = db.ExecuteSQL(statement, 1);
+			ResultSet rs = statement.executeQuery();
 			rs.beforeFirst();
 			while (rs.next()) {
 				ArrayList<String> CANDIDATE = new ArrayList<String>();
@@ -63,7 +63,7 @@ public class AdminModel {
 			if (doesExist) {
 				return "Candidate already exists!";
 			}
-			db.ExecuteSQL(statement, 2);
+			statement.executeUpdate();
 			return "Candidate added";
 		} catch (Exception e) {
 			return "Unable to add the candidate to the database!";
@@ -84,8 +84,7 @@ public class AdminModel {
 			statement.setString(5, request.getParameter("age"));
 			statement.setString(6, request.getParameter("description"));
 			statement.setString(7, request.getParameter("candidate_id"));
-			System.out.println(statement);
-			db.ExecuteSQL(statement, 2);
+			statement.executeUpdate();
 			return "Candidate updated";
 		} catch (Exception e) {
 			return "Unable to update the candidate!";
@@ -99,7 +98,7 @@ public class AdminModel {
 		try {
 			PreparedStatement statement = db.dbConn.prepareStatement("DELETE FROM candidates WHERE CANDIDATE_ID = ?");
 			statement.setString(1, candidateID);
-			db.ExecuteSQL(statement, 2);
+			statement.executeUpdate();
 			return "Candidate removed";
 		} catch (Exception e) {
 			return "Unable to remove candidate from the database!";
@@ -114,7 +113,7 @@ public class AdminModel {
 	protected boolean IfExists(HttpServletRequest request) throws Exception {
 		PreparedStatement statement = db.dbConn.prepareStatement("SELECT * FROM candidates WHERE CANDIDATE_ID = ?");
 		statement.setString(1, request.getParameter("candidate_id"));
-		ResultSet rs = db.ExecuteSQL(statement, 1);
+		ResultSet rs = statement.executeQuery();
 		rs.beforeFirst();
 		if (rs.next()) {
 			System.out.println("Already exists!");

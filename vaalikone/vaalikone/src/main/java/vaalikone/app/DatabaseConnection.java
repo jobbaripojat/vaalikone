@@ -31,52 +31,27 @@ public class DatabaseConnection {
 	}
 
 	/**
-	 * Basically executeQuery(), but with error handling so no need to do that
-	 * elsewhere. int type = 1 = executeQuery => outputs a resultset 2 =
-	 * executeUpdate => insert, update, delete
-	 */
-	public ResultSet ExecuteSQL(PreparedStatement statement, int type) {
-		ResultSet result = null;
-		try {
-			switch (type) {
-			case 1:
-				result = statement.executeQuery();
-				break;
-			case 2:
-				statement.executeUpdate();
-				break;
-			default:
-				System.out.println("1 for executeQuery(), 2 for executeUpdate()");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("There was an error making the query to the database");
-		}
-		return result;
-	}
-
-	/**
 	 * Counts the amount of candidates in the database.
 	 */
 	public int CountCandidates() throws Exception {
 		int count = 0;
-		PreparedStatement statement = dbConn.prepareStatement("SELECT CANDIDATE_ID FROM CANDIDATES");
-		ResultSet rs = ExecuteSQL(statement, 1);
+		PreparedStatement statement = dbConn.prepareStatement("SELECT CANDIDATE_ID FROM candidates");
+		ResultSet rs = statement.executeQuery();
 		rs.beforeFirst();
 		while (rs.next()) {
 			count++;
 		}
 		return count;
 	}
-	
+
 	/**
 	 * Counts the amount of questions in the database.
 	 */
-	public int CountQuestions(){
+	public int CountQuestions() {
 		int count = 0;
 		try {
-			PreparedStatement statement = dbConn.prepareStatement("SELECT QUESTION_ID FROM QUESTIONS");
-			ResultSet rs = ExecuteSQL(statement, 1);
+			PreparedStatement statement = dbConn.prepareStatement("SELECT QUESTION_ID FROM questions");
+			ResultSet rs = statement.executeQuery();
 			rs.beforeFirst();
 			while (rs.next()) {
 				count++;
@@ -86,17 +61,39 @@ public class DatabaseConnection {
 		}
 		return count;
 	}
-	
+
 	public ArrayList<String> GetMunicipalities() {
 		ArrayList<String> municipalities = new ArrayList<String>();
 		try {
-			PreparedStatement statement = dbConn.prepareStatement("SELECT DISTINCT MUNICIPALITY FROM candidates");
-			ResultSet rs = ExecuteSQL(statement, 2);
-		} catch (SQLException e){
+			PreparedStatement statement = dbConn
+					.prepareStatement("SELECT DISTINCT MUNICIPALITY FROM candidates ORDER BY MUNICIPALITY ASC");
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				municipalities.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		return municipalities;
+	}
+
+	public boolean Validate(String name, String pass) {
+		try {
+			PreparedStatement statement = dbConn
+					.prepareStatement("SELECT * FROM admin WHERE ADMIN_USERNAME = ? AND ADMIN_PASSWORD = ?");
+			statement.setString(1, name);
+			statement.setString(2, pass);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 }

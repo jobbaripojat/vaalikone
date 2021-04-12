@@ -1,14 +1,23 @@
-/* .form-control.lg{
-    width: 50%;
-    float: right;
-} 
-
-#description_name{
-    height: calc(1.5em + .75rem + 100px);
-
+input[type=radio]{
+    transform:scale(2);
 }
-
-.table{
-    width: 0%;
+.question-bubble-bg{
+    background: rgb(255,52,45);
+    background: linear-gradient(90deg,
+        rgba(255,52,45,1) 0%, 
+        rgba(241,184,88,1) 20%, 
+        rgba(237,226,101,1) 40%, 
+        rgba(237,226,101,1) 50%, 
+        rgba(237,226,101,1) 60%, 
+        rgba(180,213,88,1) 80%, 
+        rgba(0,173,45,1) 100%);
+    width:90%;
 }
- */
+.selection-bubble{
+    border: 10px solid #29869d;
+    border-radius: 40px;
+    background-color: white;
+}
+body{
+	font-family: 'RocknRoll One', sans-serif;
+}

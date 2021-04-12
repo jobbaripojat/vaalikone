@@ -34,6 +34,10 @@ public class Submit extends HttpServlet {
 		}
 		GoToResults(request, response);
 	}
+	
+	/**
+	 * Gets the topcandidate from AdminModel.java and prints it out. Gives percentage match, candidates number and candidates name.
+	 */
 
 	protected void GoToResults(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,11 +47,26 @@ public class Submit extends HttpServlet {
 			USER_ANSWERS.add(Integer.parseInt(value));
 		}
 		model.USER_ANSWERS = USER_ANSWERS;
-		int match = model.GetTopCandidate();
+		String municipality = request.getParameter("municipality");
+		String candidateInfo = model.GetTopCandidate(municipality);
+		String[] parts = candidateInfo.split("_");
+		int candidate = Integer.parseInt(parts[0]);
+		float percentage = Float.parseFloat(parts[1]);
 		RequestDispatcher rd = request.getRequestDispatcher("results.jsp");
-		request.setAttribute("results", match);
+		request.setAttribute("municipality", "the municipality of " + request.getParameter("municipality"));
+		if (municipality.endsWith("*")) {
+			request.setAttribute("municipality", "all municipalities.");
+		}
+		String addToFile = "";
+		addToFile += "The best match for you is <br>" + parts[2] + " " + parts[3] + "<br> With the number " + candidate + "<br>Match: " + percentage + "%";
+		request.setAttribute("best_candidate", candidate);
+		request.setAttribute("percentage", percentage);
+		request.setAttribute("match_text", addToFile);
 		rd.forward(request, response);
 	}
+	/**
+	 * If the user came from admin, adds the answers given to the right candidate based on candidate ID. 
+	 */
 
 	protected void AddAnswers(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -60,7 +79,7 @@ public class Submit extends HttpServlet {
 				statement.setString(1, candidateID);
 				statement.setInt(2, i);
 				statement.setString(3, value);
-				db.ExecuteSQL(statement, 2);
+				statement.executeUpdate();
 			}
 			response.sendRedirect("/admin");
 		} catch (SQLException e) {
