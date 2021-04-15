@@ -35,18 +35,19 @@ public class QuestionModel {
 		return QUESTION;
 	}
 
-	/**
-	 * Fetch a candidate's answer to a specific question from the database.
-	 */
-	protected int GetAnswersFor(int candidateID, int questionID) throws Exception {
-		PreparedStatement statement = db.dbConn
-				.prepareStatement("SELECT ANSWER FROM answers WHERE CANDIDATE_ID = ? AND QUESTION_ID = ?");
-		statement.setInt(1, candidateID);
-		statement.setInt(2, questionID);
-		ResultSet rs = statement.executeQuery();
-		rs.next();
-		return rs.getInt(1);
-	}
+//	/**
+//	 * Fetch a candidate's answer to a specific question from the database.
+//	 * not currently in use
+//	 */
+//	protected int GetAnswersFor(int candidateID, int questionID) throws Exception {
+//		PreparedStatement statement = db.dbConn
+//				.prepareStatement("SELECT ANSWER FROM answers WHERE CANDIDATE_ID = ? AND QUESTION_ID = ?");
+//		statement.setInt(1, candidateID);
+//		statement.setInt(2, questionID);
+//		ResultSet rs = statement.executeQuery();
+//		rs.next();
+//		return rs.getInt(1);
+//	}
 
 	/**
 	 * Fetch a candidate's answer to ALL questions from the database.
