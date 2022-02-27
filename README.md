@@ -5,4 +5,4 @@ Modeled after Yle-vaalikone. Functionalities are basically the same as there, bu
 
 Questions come from a local database, but could easily be directed to the cloud.
 
-Commits are skewered here again because we used [Saros](https://www.saros-project.org/), an addon to Eclipse. More about Saros here: 
+Commits are skewered here again because we used [Saros](https://www.saros-project.org/), an addon to Eclipse.
